@@ -1,0 +1,2583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information Technology | Solution of Linear Systems</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            color: white;
+            padding: 30px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            text-align: center;
+            padding: 0 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo i {
+            font-size: 3rem;
+            color: #4bcffa;
+            margin-bottom: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .logo-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .nav-tabs {
+            list-style: none;
+            margin-top: 30px;
+        }
+        
+        .nav-tab {
+            padding: 16px 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .nav-tab:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-tab.active {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #4bcffa;
+        }
+        
+        .nav-tab i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding-top: 80px;
+        }
+        
+        /* Fixed Header */
+        .content-header {
+            background-color: white;
+            padding: 20px 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 280px;
+            z-index: 100;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .content-header h2 {
+            color: #1e3c72;
+            font-size: 1.8rem;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 40px;
+            background-color: white;
+            min-height: calc(100vh - 120px);
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .section-title {
+            color: #1e3c72;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eaeaea;
+            font-size: 1.8rem;
+        }
+        
+        /* Aim Section */
+        .aim-content {
+            font-size: 1.1rem;
+        }
+        
+        .aim-content h3 {
+            color: #2c3e50;
+            margin: 20px 0 10px;
+        }
+        
+        .aim-content ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .aim-content li {
+            margin-bottom: 8px;
+        }
+        
+        /* Theory Section */
+        .theory-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .theory-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .theory-image {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .matrix-example {
+            font-family: 'Courier New', monospace;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .solution-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .solution-type {
+            flex: 1;
+            min-width: 250px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .unique-solution {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .infinite-solution {
+            background-color: #fff3e0;
+            border-left: 5px solid #FF9800;
+        }
+        
+        .no-solution {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+        }
+        
+        /* Pretest Section */
+        .pretest-content {
+            font-size: 1.1rem;
+        }
+        
+        .example-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .example {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-top: 5px solid #1e5799;
+        }
+        
+        .example h4 {
+            color: #1e5799;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .visualization {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        /* Simulation Section - ENHANCED */
+        .simulation-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 1200px) {
+            .simulation-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .simulation-controls {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #e3e7eb;
+        }
+        
+        .simulation-results {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #e3e7eb;
+        }
+        
+        .simulation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .simulation-header h3 {
+            color: #1e3c72;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: white;
+        }
+        
+        .form-group select:focus, .form-group input:focus {
+            outline: none;
+            border-color: #1e5799;
+            box-shadow: 0 0 0 3px rgba(30, 87, 153, 0.1);
+        }
+        
+        /* Matrix Input Section */
+        .matrix-input-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px dashed #e0e0e0;
+            margin-top: 15px;
+        }
+        
+        .matrix-input-section h4 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+        
+        .matrix-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .matrix-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .matrix-cell {
+            width: 80px;
+            height: 60px;
+        }
+        
+        .matrix-cell input {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            transition: all 0.3s;
+            background-color: #f8f9fa;
+        }
+        
+        .matrix-cell input:focus {
+            border-color: #1e5799;
+            background-color: white;
+            box-shadow: 0 0 8px rgba(30, 87, 153, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .matrix-operator {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1e5799;
+            padding: 0 15px;
+        }
+        
+        .matrix-equals {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 0 20px;
+        }
+        
+        .b-vector {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .b-cell {
+            width: 100px;
+            height: 60px;
+        }
+        
+        .b-cell input {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            background-color: #ebf5fb;
+        }
+        
+        /* Control Buttons */
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .btn-solve {
+            background: linear-gradient(to right, #1e5799, #2980b9);
+            color: white;
+            flex: 2;
+        }
+        
+        .btn-example {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-reset {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Results Section */
+        .results-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .results-header h3 {
+            color: #1e3c72;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .solution-status {
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .status-unique {
+            background-color: #d5f4e6;
+            color: #27ae60;
+        }
+        
+        .status-infinite {
+            background-color: #fdebd0;
+            color: #f39c12;
+        }
+        
+        .status-none {
+            background-color: #fadbd8;
+            color: #e74c3c;
+        }
+        
+        .solution-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            flex: 1;
+        }
+        
+        .solution-values {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #1e5799;
+        }
+        
+        .solution-values h4 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .variables-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .variable-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            min-width: 120px;
+        }
+        
+        .variable-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-right: 15px;
+        }
+        
+        .variable-value {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #1e5799;
+        }
+        
+        .free-variable {
+            color: #f39c12 !important;
+        }
+        
+        /* Graphical Representation */
+        .graphical-container {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .graphical-container h4 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .graph-canvas {
+            width: 100%;
+            height: 250px;
+            background-color: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .graph-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+        }
+        
+        .graph-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+        }
+        
+        .graph-legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .color-line1 { background-color: #e74c3c; }
+        .color-line2 { background-color: #3498db; }
+        .color-line3 { background-color: #2ecc71; }
+        .color-solution { background-color: #f39c12; }
+        
+        /* Matrix Properties */
+        .matrix-properties {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #9b59b6;
+        }
+        
+        .matrix-properties h4 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .property-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .property-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .property-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        
+        /* Posttest Section */
+        .question {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #1e5799;
+        }
+        
+        .question h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .options label {
+            display: block;
+            padding: 10px;
+            margin-bottom: 8px;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .options label:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .options input[type="radio"] {
+            margin-right: 10px;
+            width: auto;
+        }
+        
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        /* References Section */
+        .references-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .reference-category {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        
+        .reference-category h3 {
+            color: #1e5799;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .reference-category ul {
+            list-style: none;
+        }
+        
+        .reference-category li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .reference-category li:before {
+            content: "•";
+            color: #1e5799;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+        
+        /* Contributors Section */
+        .contributors-content {
+            text-align: center;
+        }
+        
+        .contributors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .contributor-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .contributor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contributor-card i {
+            font-size: 3rem;
+            color: #1e5799;
+            margin-bottom: 15px;
+        }
+        
+        .contributor-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        /* Feedback Section */
+        .feedback-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 250px;
+            }
+            
+            .main-content {
+                margin-left: 250px;
+            }
+            
+            .content-header {
+                left: 250px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding-top: 20px;
+            }
+            
+            .content-header {
+                position: relative;
+                left: 0;
+                margin: 0;
+            }
+            
+            .content-section {
+                margin: 10px;
+                padding: 25px;
+            }
+            
+            .nav-tabs {
+                display: flex;
+                overflow-x: auto;
+                margin-top: 0;
+                padding: 10px 0;
+            }
+            
+            .nav-tab {
+                padding: 12px 20px;
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            
+            .nav-tab.active {
+                border-left: none;
+                border-bottom: 3px solid #4bcffa;
+            }
+            
+            .matrix-cell {
+                width: 60px;
+                height: 50px;
+            }
+            
+            .matrix-cell input {
+                font-size: 1rem;
+            }
+            
+            .b-cell {
+                width: 80px;
+                height: 50px;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+        
+        /* Animation for solution */
+        @keyframes highlightSolution {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .highlight {
+            animation: highlightSolution 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-laptop-code"></i>
+                <h1>Information Technology</h1>
+                <div class="logo-subtitle">Numerical Methods - Systems of Linear Equations</div>
+            </div>
+            
+            <ul class="nav-tabs">
+                <li class="nav-tab active" data-tab="aim">
+                    <i class="fas fa-bullseye"></i>Aim
+                </li>
+                <li class="nav-tab" data-tab="theory">
+                    <i class="fas fa-book"></i>Theory
+                </li>
+                <li class="nav-tab" data-tab="pretest">
+                    <i class="fas fa-clipboard-check"></i>Pretest
+                </li>
+                <li class="nav-tab" data-tab="simulation">
+                    <i class="fas fa-calculator"></i>Simulation
+                </li>
+                <li class="nav-tab" data-tab="posttest">
+                    <i class="fas fa-question-circle"></i>Posttest
+                </li>
+                <li class="nav-tab" data-tab="references">
+                    <i class="fas fa-book-open"></i>References
+                </li>
+                <li class="nav-tab" data-tab="contributors">
+                    <i class="fas fa-users"></i>Contributors
+                </li>
+                <li class="nav-tab" data-tab="feedback">
+                    <i class="fas fa-comment-dots"></i>Feedback
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Fixed Header -->
+            <div class="content-header">
+                <h2 id="section-header">Solution of Linear Systems</h2>
+            </div>
+            
+            <!-- Content Sections -->
+            
+            <!-- Aim Section -->
+            <section id="aim" class="content-section active">
+                <h2 class="section-title">Solution of Linear Systems</h2>
+                <div class="aim-content">
+                    <h3>AIM: To find the solution of linear systems</h3>
+                    
+                    <p>This experiment aims to provide a comprehensive understanding of methods for finding solutions to systems of linear equations, which is a fundamental technique in numerical methods for Information Technology applications.</p>
+                    
+                    <h3>Learning Objectives:</h3>
+                    <ul>
+                        <li>Understand different types of solutions for linear systems: unique, infinite, or no solution</li>
+                        <li>Learn matrix methods for solving systems of linear equations</li>
+                        <li>Apply solution techniques to solve Information Technology problems</li>
+                        <li>Analyze the nature of solutions based on matrix properties</li>
+                        <li>Compare different solution methods for linear systems</li>
+                    </ul>
+                    
+                    <h3>Importance in Information Technology:</h3>
+                    <p>Solving linear systems is widely used in Information Technology for computer graphics transformations, network flow analysis, machine learning algorithms, data analysis, and optimization problems. Understanding the nature of solutions (unique, infinite, or none) is crucial for algorithm design and system analysis.</p>
+                    
+                    <h3>Applications:</h3>
+                    <ul>
+                        <li>Computer Graphics: 3D transformations and rendering</li>
+                        <li>Network Analysis: Traffic flow and optimization</li>
+                        <li>Machine Learning: Linear regression and classification</li>
+                        <li>Data Science: Principal Component Analysis (PCA)</li>
+                        <li>Cryptography: Encoding and decoding algorithms</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Theory Section -->
+            <section id="theory" class="content-section">
+                <h2 class="section-title">Theory of Solution of Linear Systems by Matrix Method</h2>
+                <div class="theory-content">
+                    <div class="theory-text">
+                        <h3>Introduction</h3>
+                        <p>A system of linear equations can be represented in matrix form as <strong>AX = B</strong>, where A is the coefficient matrix, X is the vector of unknowns, and B is the constant vector. The solution to this system depends on the properties of matrix A.</p>
+                        
+                        <h3>Matrix Representation</h3>
+                        <p>Given a system of n linear equations with n unknowns:</p>
+                        <p>a₁₁x₁ + a₁₂x₂ + ... + a₁ₙxₙ = b₁</p>
+                        <p>a₂₁x₁ + a₂₂x₂ + ... + a₂ₙxₙ = b₂</p>
+                        <p>...</p>
+                        <p>aₙ₁x₁ + aₙ₂x₂ + ... + aₙₙxₙ = bₙ</p>
+                        
+                        <p>In matrix form: <strong>AX = B</strong></p>
+                        <p>where:</p>
+                        <p>A = [[a₁₁, a₁₂, ..., a₁ₙ], [a₂₁, a₂₂, ..., a₂ₙ], ..., [aₙ₁, aₙ₂, ..., aₙₙ]]</p>
+                        <p>X = [x₁, x₂, ..., xₙ]ᵀ</p>
+                        <p>B = [b₁, b₂, ..., bₙ]ᵀ</p>
+                        
+                        <h3>Nature of Solutions</h3>
+                        <p>The solution of a linear system depends on the rank of the coefficient matrix A and the augmented matrix [A|B]:</p>
+                        
+                        <div class="solution-types">
+                            <div class="solution-type unique-solution">
+                                <h4><i class="fas fa-check-circle"></i> Unique Solution</h4>
+                                <p>Occurs when rank(A) = rank([A|B]) = n (number of variables). The system is consistent and has exactly one solution.</p>
+                                <p><strong>Condition:</strong> det(A) ≠ 0</p>
+                            </div>
+                            
+                            <div class="solution-type infinite-solution">
+                                <h4><i class="fas fa-infinity"></i> Infinite Solutions</h4>
+                                <p>Occurs when rank(A) = rank([A|B]) < n. The system is consistent but has infinitely many solutions.</p>
+                                <p><strong>Condition:</strong> det(A) = 0, but system is consistent</p>
+                            </div>
+                            
+                            <div class="solution-type no-solution">
+                                <h4><i class="fas fa-times-circle"></i> No Solution</h4>
+                                <p>Occurs when rank(A) < rank([A|B]). The system is inconsistent and has no solution.</p>
+                                <p><strong>Condition:</strong> det(A) = 0 and system is inconsistent</p>
+                            </div>
+                        </div>
+                        
+                        <h3>Solution Methods</h3>
+                        <ol>
+                            <li><strong>Matrix Inversion:</strong> X = A⁻¹B (only when A is invertible)</li>
+                            <li><strong>Gaussian Elimination:</strong> Transform to row-echelon form and back substitute</li>
+                            <li><strong>LU Decomposition:</strong> Factor A into lower and upper triangular matrices</li>
+                            <li><strong>Cramer's Rule:</strong> Use determinants (for small systems)</li>
+                            <li><strong>Gauss-Jordan Elimination:</strong> Transform to reduced row-echelon form</li>
+                        </ol>
+                        
+                        <h3>Applications in Information Technology</h3>
+                        <p>Solution of linear systems is used in:</p>
+                        <ul>
+                            <li>Computer Graphics: 3D transformations and perspective projections</li>
+                            <li>Network Analysis: Solving for traffic flow in computer networks</li>
+                            <li>Machine Learning: Solving normal equations in linear regression</li>
+                            <li>Cryptography: Solving systems in coding theory</li>
+                            <li>Data Compression: Singular Value Decomposition (SVD)</li>
+                        </ul>
+                    </div>
+                    <div class="theory-image">
+                        <h3>Matrix Solution Example</h3>
+                        <p>Solving AX = B using matrix method:</p>
+                        <div class="matrix-example">
+                            <p>System:</p>
+                            <p>2x + 3y = 8</p>
+                            <p>4x + y = 6</p>
+                            <br>
+                            <p>Matrix form:</p>
+                            <p>[2 3] [x] = [8]</p>
+                            <p>[4 1] [y]   [6]</p>
+                            <br>
+                            <p>Solution:</p>
+                            <p>X = A⁻¹B = [x] = [1]</p>
+                            <p>         [y]   [2]</p>
+                            <br>
+                            <p>Unique solution exists since det(A) = -10 ≠ 0</p>
+                        </div>
+                        <p style="margin-top: 20px; text-align: center;"><i class="fas fa-project-diagram" style="font-size: 3rem; color: #1e5799;"></i></p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Pretest Section -->
+            <section id="pretest" class="content-section">
+                <h2 class="section-title">Pretest - Types of Solutions with Examples</h2>
+                <div class="pretest-content">
+                    <p>This section demonstrates the three types of solutions for linear systems with proper examples and visual representations.</p>
+                    
+                    <div class="example-container">
+                        <!-- Unique Solution Example -->
+                        <div class="example">
+                            <h4><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Unique Solution Example</h4>
+                            <p><strong>System:</strong></p>
+                            <p>2x + y = 5</p>
+                            <p>x - y = 1</p>
+                            
+                            <p><strong>Matrix Form:</strong></p>
+                            <p>[2  1] [x] = [5]</p>
+                            <p>[1 -1] [y]   [1]</p>
+                            
+                            <p><strong>Solution:</strong></p>
+                            <p>x = 2, y = 1</p>
+                            <p><em>det(A) = -3 ≠ 0, so unique solution exists</em></p>
+                            
+                            <div class="visualization">
+                                <h5>Visual Representation:</h5>
+                                <p>Two lines intersecting at a single point (2, 1)</p>
+                                <div style="height: 150px; background: linear-gradient(to right, #e8f5e9, #c8e6c9); border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-crosshairs" style="font-size: 3rem; color: #4CAF50;"></i>
+                                    <div style="margin-left: 20px;">
+                                        <p>Intersection at (2, 1)</p>
+                                        <p>Unique solution point</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Infinite Solutions Example -->
+                        <div class="example">
+                            <h4><i class="fas fa-infinity" style="color: #FF9800;"></i> Infinite Solutions Example</h4>
+                            <p><strong>System:</strong></p>
+                            <p>2x + 4y = 8</p>
+                            <p>x + 2y = 4</p>
+                            
+                            <p><strong>Matrix Form:</strong></p>
+                            <p>[2  4] [x] = [8]</p>
+                            <p>[1  2] [y]   [4]</p>
+                            
+                            <p><strong>Solution:</strong></p>
+                            <p>y = (4 - x)/2 for any x</p>
+                            <p>Infinite solutions along the line</p>
+                            <p><em>det(A) = 0, rank(A) = rank([A|B]) = 1 < 2</em></p>
+                            
+                            <div class="visualization">
+                                <h5>Visual Representation:</h5>
+                                <p>Two coincident lines (same line)</p>
+                                <div style="height: 150px; background: linear-gradient(to right, #fff3e0, #ffe0b2); border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-road" style="font-size: 3rem; color: #FF9800;"></i>
+                                    <div style="margin-left: 20px;">
+                                        <p>Coincident lines</p>
+                                        <p>Infinite points of intersection</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- No Solution Example -->
+                        <div class="example">
+                            <h4><i class="fas fa-times-circle" style="color: #f44336;"></i> No Solution Example</h4>
+                            <p><strong>System:</strong></p>
+                            <p>2x + y = 5</p>
+                            <p>2x + y = 7</p>
+                            
+                            <p><strong>Matrix Form:</strong></p>
+                            <p>[2  1] [x] = [5]</p>
+                            <p>[2  1] [y]   [7]</p>
+                            
+                            <p><strong>Solution:</strong></p>
+                            <p>No solution exists</p>
+                            <p><em>det(A) = 0, rank(A) = 1, rank([A|B]) = 2</em></p>
+                            <p>System is inconsistent</p>
+                            
+                            <div class="visualization">
+                                <h5>Visual Representation:</h5>
+                                <p>Two parallel lines that never intersect</p>
+                                <div style="height: 150px; background: linear-gradient(to right, #ffebee, #ffcdd2); border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-road" style="font-size: 3rem; color: #f44336; transform: rotate(90deg);"></i>
+                                    <div style="margin-left: 20px;">
+                                        <p>Parallel lines</p>
+                                        <p>No intersection point</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px; padding: 20px; background-color: #e3f2fd; border-radius: 8px;">
+                        <h4><i class="fas fa-lightbulb"></i> Key Takeaways</h4>
+                        <p>1. <strong>Unique Solution:</strong> Lines intersect at exactly one point (det ≠ 0)</p>
+                        <p>2. <strong>Infinite Solutions:</strong> Lines are coincident (same line) (det = 0, consistent)</p>
+                        <p>3. <strong>No Solution:</strong> Lines are parallel (det = 0, inconsistent)</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Simulation Section -->
+            <section id="simulation" class="content-section">
+                <h2 class="section-title">Interactive Linear System Solver</h2>
+                <p class="section-subtitle" style="margin-bottom: 30px; color: #7f8c8d;">Enter your linear equations and visualize the solution with graphical representation</p>
+                
+                <div class="simulation-container">
+                    <!-- Left Panel: Controls and Input -->
+                    <div class="simulation-controls">
+                        <div class="simulation-header">
+                            <h3><i class="fas fa-sliders-h"></i> System Configuration</h3>
+                        </div>
+                        
+                        <!-- System Size Selection -->
+                        <div class="form-group">
+                            <label for="num-equations">
+                                <i class="fas fa-ruler-combined"></i> Number of Equations/Variables:
+                            </label>
+                            <select id="num-equations">
+                                <option value="2">2 Equations (2D Visualization)</option>
+                                <option value="3" selected>3 Equations (3D Projection)</option>
+                                <option value="4">4 Equations</option>
+                                <option value="5">5 Equations</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Method Selection -->
+                        <div class="form-group">
+                            <label for="solution-method">
+                                <i class="fas fa-cogs"></i> Solution Method:
+                            </label>
+                            <select id="solution-method">
+                                <option value="gauss">Gaussian Elimination</option>
+                                <option value="matrix">Matrix Inversion</option>
+                                <option value="lu">LU Decomposition</option>
+                                <option value="gauss-jordan">Gauss-Jordan Elimination</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Matrix Input Section -->
+                        <div class="matrix-input-section">
+                            <h4><i class="fas fa-table"></i> Enter Coefficient Matrix A and Vector B</h4>
+                            <p style="text-align: center; margin-bottom: 20px; color: #7f8c8d;">Format: A × X = B</p>
+                            
+                            <div class="matrix-container" id="matrix-input-container">
+                                <!-- Matrix inputs will be generated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Control Buttons -->
+                        <div class="control-buttons">
+                            <button class="btn btn-solve" id="solve-system-btn">
+                                <i class="fas fa-play-circle"></i> Solve System
+                            </button>
+                            <button class="btn btn-example" id="load-example-btn">
+                                <i class="fas fa-magic"></i> Load Example
+                            </button>
+                            <button class="btn btn-reset" id="reset-system-btn">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                        
+                        <!-- Quick Examples -->
+                        <div style="margin-top: 30px; padding: 20px; background-color: #e3f2fd; border-radius: 8px;">
+                            <h4 style="color: #1e5799; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <i class="fas fa-lightbulb"></i> Quick Examples to Try
+                            </h4>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div>
+                                    <strong>Unique Solution:</strong> 2x + y = 5, x - y = 1
+                                </div>
+                                <div>
+                                    <strong>Infinite Solutions:</strong> x + 2y = 4, 2x + 4y = 8
+                                </div>
+                                <div>
+                                    <strong>No Solution:</strong> x + y = 3, x + y = 5
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Panel: Results and Visualization -->
+                    <div class="simulation-results">
+                        <div class="results-header">
+                            <h3><i class="fas fa-chart-line"></i> Solution Results</h3>
+                            <div class="solution-status" id="solution-status">Ready</div>
+                        </div>
+                        
+                        <div class="solution-content">
+                            <!-- Solution Values -->
+                            <div class="solution-values" id="solution-values-container">
+                                <h4><i class="fas fa-calculator"></i> Solution Values</h4>
+                                <div id="solution-display">
+                                    <p style="text-align: center; color: #7f8c8d; padding: 40px 20px;">
+                                        <i class="fas fa-calculator" style="font-size: 3rem; margin-bottom: 15px; display: block; color: #bdc3c7;"></i>
+                                        Enter your linear system and click "Solve System" to see the solution
+                                    </p>
+                                </div>
+                                <div class="variables-container" id="variables-container">
+                                    <!-- Variable values will appear here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Graphical Representation -->
+                            <div class="graphical-container">
+                                <h4><i class="fas fa-project-diagram"></i> Graphical Representation</h4>
+                                <div class="graph-canvas" id="graph-canvas">
+                                    <div class="graph-placeholder" id="graph-placeholder">
+                                        <i class="fas fa-chart-area"></i>
+                                        <p>Graphical representation will appear here</p>
+                                        <p style="font-size: 0.9rem; margin-top: 10px;">For 2D systems: Shows intersecting lines</p>
+                                        <p style="font-size: 0.9rem;">For 3D systems: Shows plane intersections</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="graph-legend" id="graph-legend">
+                                    <!-- Legend items will appear here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Matrix Properties -->
+                            <div class="matrix-properties">
+                                <h4><i class="fas fa-info-circle"></i> System Properties</h4>
+                                <div class="properties-grid" id="matrix-properties">
+                                    <div class="property-item">
+                                        <div class="property-label">System Size</div>
+                                        <div class="property-value" id="prop-size">-</div>
+                                    </div>
+                                    <div class="property-item">
+                                        <div class="property-label">Solution Method</div>
+                                        <div class="property-value" id="prop-method">-</div>
+                                    </div>
+                                    <div class="property-item">
+                                        <div class="property-label">Determinant</div>
+                                        <div class="property-value" id="prop-determinant">-</div>
+                                    </div>
+                                    <div class="property-item">
+                                        <div class="property-label">Rank of A</div>
+                                        <div class="property-value" id="prop-rank">-</div>
+                                    </div>
+                                    <div class="property-item">
+                                        <div class="property-label">Consistency</div>
+                                        <div class="property-value" id="prop-consistency">-</div>
+                                    </div>
+                                    <div class="property-item">
+                                        <div class="property-label">Solution Type</div>
+                                        <div class="property-value" id="prop-type">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Posttest Section -->
+            <section id="posttest" class="content-section">
+                <h2 class="section-title">Posttest - Evaluate Your Learning</h2>
+                <div class="posttest-content">
+                    <p>Complete this posttest to evaluate your understanding of linear system solutions after going through the experiment. After submitting, explanations will be shown for each question.</p>
+                    
+                    <div class="question" id="q1">
+                        <h3>Question 1: When does a linear system have a unique solution?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="pq1" value="a"> When det(A) = 0</label><br>
+                            <label><input type="radio" name="pq1" value="b"> When det(A) ≠ 0</label><br>
+                            <label><input type="radio" name="pq1" value="c"> When rank(A) < rank([A|B])</label><br>
+                            <label><input type="radio" name="pq1" value="d"> When the system is inconsistent</label>
+                        </div>
+                        <div class="explanation" id="exp1">
+                            <strong>Explanation:</strong> A linear system has a unique solution when the determinant of the coefficient matrix A is non-zero (det(A) ≠ 0). This means the matrix is invertible and the system is consistent and independent.
+                        </div>
+                    </div>
+                    
+                    <div class="question" id="q2">
+                        <h3>Question 2: What does it mean when rank(A) = rank([A|B]) < n?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="pq2" value="a"> The system has no solution</label><br>
+                            <label><input type="radio" name="pq2" value="b"> The system has a unique solution</label><br>
+                            <label><input type="radio" name="pq2" value="c"> The system has infinite solutions</label><br>
+                            <label><input type="radio" name="pq2" value="d"> The system is inconsistent</label>
+                        </div>
+                        <div class="explanation" id="exp2">
+                            <strong>Explanation:</strong> When rank(A) = rank([A|B]) < n (where n is the number of variables), it means the system is consistent but has dependent equations. This results in infinite solutions, with (n - rank) free variables.
+                        </div>
+                    </div>
+                    
+                    <div class="question" id="q3">
+                        <h3>Question 3: In the matrix method, how is the solution represented?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="pq3" value="a"> X = AB</label><br>
+                            <label><input type="radio" name="pq3" value="b"> X = A⁻¹B</label><br>
+                            <label><input type="radio" name="pq3" value="c"> X = BA⁻¹</label><br>
+                            <label><input type="radio" name="pq3" value="d"> X = B⁻¹A</label>
+                        </div>
+                        <div class="explanation" id="exp3">
+                            <strong>Explanation:</strong> The solution is represented as X = A⁻¹B, where A⁻¹ is the inverse of the coefficient matrix. This method can only be used when A is invertible (det(A) ≠ 0).
+                        </div>
+                    </div>
+                    
+                    <div class="question" id="q4">
+                        <h3>Question 4: Which method is most efficient for solving large systems of linear equations?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="pq4" value="a"> Cramer's Rule</label><br>
+                            <label><input type="radio" name="pq4" value="b"> Matrix Inversion</label><br>
+                            <label><input type="radio" name="pq4" value="c"> Gaussian Elimination</label><br>
+                            <label><input type="radio" name="pq4" value="d"> All are equally efficient</label>
+                        </div>
+                        <div class="explanation" id="exp4">
+                            <strong>Explanation:</strong> Gaussian Elimination is generally the most efficient for large systems with O(n³) operations. Cramer's Rule requires calculating n+1 determinants, which is O(n!) operations, making it impractical for large systems.
+                        </div>
+                    </div>
+                    
+                    <div class="question" id="q5">
+                        <h3>Question 5: What does it mean if a system has "infinite solutions"?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="pq5" value="a"> There's an error in the equations</label><br>
+                            <label><input type="radio" name="pq5" value="b"> The system has no solution</label><br>
+                            <label><input type="radio" name="pq5" value="c"> There are multiple sets of values that satisfy all equations</label><br>
+                            <label><input type="radio" name="pq5" value="d"> The determinant is non-zero</label>
+                        </div>
+                        <div class="explanation" id="exp5">
+                            <strong>Explanation:</strong> Infinite solutions means there are multiple (infinitely many) sets of values that satisfy all equations simultaneously. This occurs when the equations are not independent (one or more equations can be expressed as combinations of others).
+                        </div>
+                    </div>
+                    
+                    <div class="question" id="q6">
+                        <h3>Question 6: In the context of linear systems, what does "consistent" mean?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="pq6" value="a"> The system has at least one solution</label><br>
+                            <label><input type="radio" name="pq6" value="b"> The system has no solution</label><br>
+                            <label><input type="radio" name="pq6" value="c"> All equations have the same variables</label><br>
+                            <label><input type="radio" name="pq6" value="d"> The system has exactly one solution</label>
+                        </div>
+                        <div class="explanation" id="exp6">
+                            <strong>Explanation:</strong> A system is consistent if it has at least one solution (either unique or infinite). An inconsistent system has no solution. Consistency is determined by comparing the rank of A with the rank of the augmented matrix [A|B].
+                        </div>
+                    </div>
+                    
+                    <button id="submit-posttest" style="margin-top: 20px;">Submit Posttest</button>
+                    <div id="posttest-result" style="margin-top: 20px; padding: 15px; background-color: #f0f8ff; border-radius: 5px; display: none;"></div>
+                </div>
+            </section>
+            
+            <!-- References Section -->
+            <section id="references" class="content-section">
+                <h2 class="section-title">References</h2>
+                <div class="references-content">
+                    <div class="reference-category">
+                        <h3><i class="fab fa-github"></i> Online Resources & Tools</h3>
+                        <ul>
+                            <li>GitHub - Open source code repositories and collaborative projects</li>
+                            <li>DeepSeek - AI assistant for technical problem solving</li>
+                            <li>ChatGPT - AI language model for learning and problem solving</li>
+                            <li>Khan Academy - Linear Algebra courses</li>
+                            <li>Wolfram Alpha - Computational intelligence for mathematics</li>
+                            <li>MIT OpenCourseWare - Free course materials on numerical methods</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="reference-category">
+                        <h3><i class="fas fa-book"></i> Text Books</h3>
+                        <ul>
+                            <li>Higher Engineering Mathematics by B.V. Ramana, 34e, Tata McGraw-Hill</li>
+                            <li>Advanced Engineering Mathematics by Peter V. O'Neil, 7e, Thomson Learning</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="reference-category">
+                        <h3><i class="fas fa-book-reader"></i> Reference Books</h3>
+                        <ul>
+                            <li>Advanced Engineering Mathematics by Erwin Kreyszig, 9e, Wiley Eastern Ltd</li>
+                            <li>Advanced Engineering Mathematics by S.R.K. Iyengar, Rajendra K. Jain, 4e, Alpha Science International Ltd</li>
+                            <li>Advanced Engineering Mathematics by M. D. Greenberg, 2e, Pearson Education</li>
+                            <li>Higher Engineering Mathematics by B. S. Grewal, 43e, Khanna Publication, Delhi</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="reference-category">
+                        <h3><i class="fas fa-laptop-code"></i> Software & Programming</h3>
+                        <ul>
+                            <li>MATLAB - Numerical computing environment</li>
+                            <li>Python with NumPy and SciPy libraries</li>
+                            <li>Julia - High-performance programming for numerical analysis</li>
+                            <li>R - Statistical computing and graphics</li>
+                            <li>Octave - Open source numerical computation software</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Contributors Section -->
+            <section id="contributors" class="content-section">
+                <h2 class="section-title">Contributors</h2>
+                <div class="contributors-content">
+                    <p>This virtual lab experiment was developed by the following team:</p>
+                    
+                    <div class="contributors-grid">
+                        <div class="contributor-card">
+                            <i class="fas fa-user-graduate"></i>
+                            <h4>Dinesh Kute</h4>
+                            <p>Information Technology</p>
+                            <p>Numerical Methods Specialist</p>
+                        </div>
+                        
+                        <div class="contributor-card">
+                            <i class="fas fa-user-graduate"></i>
+                            <h4>Nakshatra Lalwani</h4>
+                            <p>Information Technology</p>
+                            <p>Web Development Lead</p>
+                        </div>
+                        
+                        <div class="contributor-card">
+                            <i class="fas fa-user-graduate"></i>
+                            <h4>Siya Dubey</h4>
+                            <p>Information Technology</p>
+                            <p>Content Development</p>
+                        </div>
+                        
+                        <div class="contributor-card">
+                            <i class="fas fa-user-graduate"></i>
+                            <h4>Radnyee Jagtap</h4>
+                            <p>Information Technology</p>
+                            <p>Algorithm Design</p>
+                        </div>
+                        
+                        <div class="contributor-card">
+                            <i class="fas fa-user-graduate"></i>
+                            <h4>Shravan Ganjewar</h4>
+                            <p>Information Technology</p>
+                            <p>Testing & Validation</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 40px; padding: 25px; background-color: #f8f9fa; border-radius: 10px;">
+                        <h3><i class="fas fa-handshake"></i> Acknowledgements</h3>
+                        <p>This virtual lab experiment was developed as part of the Information Technology curriculum. Special thanks to all faculty members and students who contributed to the development and testing of this educational resource.</p>
+                        <p style="margin-top: 15px;"><strong>Development Team:</strong> Information Technology Department</p>
+                        <p><strong>Academic Year:</strong> 2023-2024</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Feedback Section -->
+            <section id="feedback" class="content-section">
+                <h2 class="section-title">Feedback</h2>
+                <div class="feedback-content">
+                    <p>We value your feedback to improve this virtual lab experiment. Please share your experience and suggestions.</p>
+                    
+                    <form id="feedback-form">
+                        <div class="form-group">
+                            <label for="name">Name (Optional):</label>
+                            <input type="text" id="name" placeholder="Enter your name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email (Optional):</label>
+                            <input type="email" id="email" placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="institution">Institution/Organization:</label>
+                            <input type="text" id="institution" placeholder="Enter your institution">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="rating">Overall Rating:</label>
+                            <select id="rating">
+                                <option value="">Select rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Very Good</option>
+                                <option value="3">Good</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="comments">Comments and Suggestions:</label>
+                            <textarea id="comments" rows="5" placeholder="Please provide your feedback here..."></textarea>
+                        </div>
+                        
+                        <button type="submit">Submit Feedback</button>
+                    </form>
+                    
+                    <div id="feedback-thankyou" style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 5px; display: none;">
+                        <h3>Thank You for Your Feedback!</h3>
+                        <p>Your feedback has been submitted successfully. We appreciate your input to help improve this virtual lab experience.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script>
+        // Tab Switching Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const contentSections = document.querySelectorAll('.content-section');
+            const sectionHeader = document.getElementById('section-header');
+            
+            // Section titles for header
+            const sectionTitles = {
+                'aim': 'Solution of Linear Systems',
+                'theory': 'Theory of Solution of Linear Systems',
+                'pretest': 'Pretest - Types of Solutions',
+                'simulation': 'Simulation - Solve Linear Systems',
+                'posttest': 'Posttest - Evaluate Your Learning',
+                'references': 'References',
+                'contributors': 'Contributors',
+                'feedback': 'Feedback'
+            };
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and content sections
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content section
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Update header
+                    sectionHeader.textContent = sectionTitles[tabId];
+                });
+            });
+            
+            // Posttest Submission
+            document.getElementById('submit-posttest').addEventListener('click', function() {
+                // Correct answers
+                const correctAnswers = {
+                    'pq1': 'b',
+                    'pq2': 'c',
+                    'pq3': 'b',
+                    'pq4': 'c',
+                    'pq5': 'c',
+                    'pq6': 'a'
+                };
+                
+                let score = 0;
+                let totalQuestions = Object.keys(correctAnswers).length;
+                let feedback = "<h3>Posttest Results:</h3>";
+                
+                // Check each question
+                for (let i = 1; i <= totalQuestions; i++) {
+                    const questionName = `pq${i}`;
+                    const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+                    
+                    if (selectedOption && selectedOption.value === correctAnswers[questionName]) {
+                        score++;
+                    }
+                    
+                    // Show explanation for this question
+                    const explanation = document.getElementById(`exp${i}`);
+                    if (explanation) {
+                        explanation.style.display = 'block';
+                    }
+                }
+                
+                feedback += `<p>You scored ${score} out of ${totalQuestions}.</p>`;
+                
+                if (score === totalQuestions) {
+                    feedback += "<p>Excellent! You have a thorough understanding of linear system solutions.</p>";
+                } else if (score >= totalQuestions * 0.7) {
+                    feedback += "<p>Good job! You understand most concepts but may need to review some areas.</p>";
+                } else {
+                    feedback += "<p>We recommend revisiting the theory and simulation sections to better understand linear system solutions.</p>";
+                }
+                
+                feedback += "<p><strong>Review the explanations below each question to understand the correct answers.</strong></p>";
+                
+                document.getElementById('posttest-result').innerHTML = feedback;
+                document.getElementById('posttest-result').style.display = 'block';
+                
+                // Scroll to results
+                document.getElementById('posttest-result').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Feedback Form Submission
+            document.getElementById('feedback-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                document.getElementById('feedback-thankyou').style.display = 'block';
+                document.getElementById('feedback-form').reset();
+                
+                // Scroll to thank you message
+                document.getElementById('feedback-thankyou').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Initialize Simulation Matrix Inputs
+            initializeMatrixInputs();
+            
+            // Handle Matrix Size Change
+            document.getElementById('num-equations').addEventListener('change', function() {
+                initializeMatrixInputs();
+                resetResults();
+            });
+            
+            // Solve Button
+            document.getElementById('solve-system-btn').addEventListener('click', function() {
+                solveLinearSystem();
+            });
+            
+            // Example Button
+            document.getElementById('load-example-btn').addEventListener('click', function() {
+                loadExampleSystem();
+            });
+            
+            // Reset Button
+            document.getElementById('reset-system-btn').addEventListener('click', function() {
+                initializeMatrixInputs();
+                resetResults();
+            });
+            
+            // Auto-load example on first visit to simulation
+            setTimeout(() => {
+                if (document.getElementById('simulation').classList.contains('active')) {
+                    loadExampleSystem();
+                }
+            }, 500);
+        });
+        
+        function initializeMatrixInputs() {
+            const n = parseInt(document.getElementById('num-equations').value);
+            const container = document.getElementById('matrix-input-container');
+            container.innerHTML = '';
+            
+            // Create matrix equation: A * X = B
+            let matrixHTML = '';
+            
+            // Create matrix A
+            matrixHTML += '<div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 20px;">';
+            
+            // Matrix A
+            matrixHTML += '<div style="display: flex; flex-direction: column; align-items: center;">';
+            matrixHTML += '<div style="margin-bottom: 10px; font-weight: 600; color: #2c3e50;">Matrix A</div>';
+            
+            for (let i = 0; i < n; i++) {
+                matrixHTML += '<div class="matrix-row">';
+                for (let j = 0; j < n; j++) {
+                    matrixHTML += `<div class="matrix-cell">
+                        <input type="number" id="a${i}${j}" placeholder="0" step="any" value="0">
+                    </div>`;
+                }
+                matrixHTML += '</div>';
+            }
+            matrixHTML += '</div>';
+            
+            // Multiply sign
+            matrixHTML += '<div class="matrix-operator">×</div>';
+            
+            // Vector X
+            matrixHTML += '<div style="display: flex; flex-direction: column; align-items: center;">';
+            matrixHTML += '<div style="margin-bottom: 10px; font-weight: 600; color: #2c3e50;">Vector X</div>';
+            for (let i = 0; i < n; i++) {
+                matrixHTML += `<div class="matrix-row">
+                    <div class="matrix-cell" style="background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #1e5799; border: 2px solid #1e5799;">
+                        x<sub>${i+1}</sub>
+                    </div>
+                </div>`;
+            }
+            matrixHTML += '</div>';
+            
+            // Equals sign
+            matrixHTML += '<div class="matrix-equals">=</div>';
+            
+            // Vector B
+            matrixHTML += '<div style="display: flex; flex-direction: column; align-items: center;">';
+            matrixHTML += '<div style="margin-bottom: 10px; font-weight: 600; color: #2c3e50;">Vector B</div>';
+            matrixHTML += '<div class="b-vector">';
+            for (let i = 0; i < n; i++) {
+                matrixHTML += `<div class="b-cell">
+                    <input type="number" id="b${i}" placeholder="0" step="any" value="0">
+                </div>`;
+            }
+            matrixHTML += '</div>';
+            matrixHTML += '</div>';
+            
+            matrixHTML += '</div>';
+            
+            container.innerHTML = matrixHTML;
+            
+            // Add input event listeners for real-time validation
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    const input = document.getElementById(`a${i}${j}`);
+                    input.addEventListener('input', function() {
+                        this.style.backgroundColor = this.value === '' ? '#f8f9fa' : '#fff';
+                    });
+                }
+                
+                const bInput = document.getElementById(`b${i}`);
+                bInput.addEventListener('input', function() {
+                    this.style.backgroundColor = this.value === '' ? '#ebf5fb' : '#fff';
+                });
+            }
+        }
+        
+        function loadExampleSystem() {
+            const n = parseInt(document.getElementById('num-equations').value);
+            
+            // Clear all inputs first
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    document.getElementById(`a${i}${j}`).value = '';
+                }
+                document.getElementById(`b${i}`).value = '';
+            }
+            
+            // Load example based on system size
+            if (n === 2) {
+                // 2D system with unique solution
+                document.getElementById('a00').value = 2;
+                document.getElementById('a01').value = 1;
+                document.getElementById('b0').value = 5;
+                document.getElementById('a10').value = 1;
+                document.getElementById('a11').value = -1;
+                document.getElementById('b1').value = 1;
+            } else if (n === 3) {
+                // 3D system with unique solution
+                document.getElementById('a00').value = 2;
+                document.getElementById('a01').value = 1;
+                document.getElementById('a02').value = -1;
+                document.getElementById('b0').value = 8;
+                document.getElementById('a10').value = -3;
+                document.getElementById('a11').value = -1;
+                document.getElementById('a12').value = 2;
+                document.getElementById('b1').value = -11;
+                document.getElementById('a20').value = -2;
+                document.getElementById('a21').value = 1;
+                document.getElementById('a22').value = 2;
+                document.getElementById('b2').value = -3;
+            } else if (n === 4) {
+                // 4D system with unique solution
+                document.getElementById('a00').value = 2;
+                document.getElementById('a01').value = 1;
+                document.getElementById('a02').value = 0;
+                document.getElementById('a03').value = -1;
+                document.getElementById('b0').value = 5;
+                document.getElementById('a10').value = 1;
+                document.getElementById('a11').value = 2;
+                document.getElementById('a12').value = -1;
+                document.getElementById('a13').value = 0;
+                document.getElementById('b1').value = 3;
+                document.getElementById('a20').value = 0;
+                document.getElementById('a21').value = -1;
+                document.getElementById('a22').value = 2;
+                document.getElementById('a23').value = 1;
+                document.getElementById('b2').value = 4;
+                document.getElementById('a30').value = -1;
+                document.getElementById('a31').value = 0;
+                document.getElementById('a32').value = 1;
+                document.getElementById('a33').value = 2;
+                document.getElementById('b3').value = 6;
+            } else if (n === 5) {
+                // 5D system with unique solution (diagonal dominant)
+                for (let i = 0; i < 5; i++) {
+                    for (let j = 0; j < 5; j++) {
+                        if (i === j) {
+                            document.getElementById(`a${i}${j}`).value = 3;
+                        } else if (Math.abs(i - j) === 1) {
+                            document.getElementById(`a${i}${j}`).value = -1;
+                        } else {
+                            document.getElementById(`a${i}${j}`).value = 0;
+                        }
+                    }
+                    document.getElementById(`b${i}`).value = i + 1;
+                }
+            }
+            
+            // Highlight the inputs
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    const input = document.getElementById(`a${i}${j}`);
+                    input.style.backgroundColor = '#e8f5e9';
+                    setTimeout(() => {
+                        input.style.backgroundColor = '#fff';
+                    }, 1000);
+                }
+                
+                const bInput = document.getElementById(`b${i}`);
+                bInput.style.backgroundColor = '#e8f5e9';
+                setTimeout(() => {
+                    bInput.style.backgroundColor = '#fff';
+                }, 1000);
+            }
+            
+            // Show a message
+            showMessage('Example system loaded! Click "Solve System" to see the solution.', 'success');
+        }
+        
+        function solveLinearSystem() {
+            const n = parseInt(document.getElementById('num-equations').value);
+            const method = document.getElementById('solution-method').value;
+            
+            // Get matrix values
+            let A = [];
+            let B = [];
+            let allInputsValid = true;
+            
+            for (let i = 0; i < n; i++) {
+                A[i] = [];
+                for (let j = 0; j < n; j++) {
+                    const val = document.getElementById(`a${i}${j}`).value;
+                    if (val === '') {
+                        document.getElementById(`a${i}${j}`).style.borderColor = '#e74c3c';
+                        allInputsValid = false;
+                    } else {
+                        document.getElementById(`a${i}${j}`).style.borderColor = '#bdc3c7';
+                        A[i][j] = parseFloat(val);
+                    }
+                }
+                
+                const bVal = document.getElementById(`b${i}`).value;
+                if (bVal === '') {
+                    document.getElementById(`b${i}`).style.borderColor = '#e74c3c';
+                    allInputsValid = false;
+                } else {
+                    document.getElementById(`b${i}`).style.borderColor = '#3498db';
+                    B[i] = parseFloat(bVal);
+                }
+            }
+            
+            if (!allInputsValid) {
+                showMessage('Please fill in all matrix values before solving.', 'error');
+                return;
+            }
+            
+            // Update status
+            const statusElement = document.getElementById('solution-status');
+            statusElement.textContent = 'Calculating...';
+            statusElement.className = 'solution-status status-infinite';
+            
+            // Solve the system
+            let result;
+            if (method === 'gauss' || method === 'gauss-jordan') {
+                result = gaussianElimination(A, B, n, method);
+            } else if (method === 'matrix') {
+                result = matrixInversionMethod(A, B, n);
+            } else {
+                result = luDecompositionMethod(A, B, n);
+            }
+            
+            // Display results
+            displaySolution(result, n);
+        }
+        
+        function gaussianElimination(A, B, n, method = 'gauss') {
+            // Create augmented matrix
+            let augmented = [];
+            for (let i = 0; i < n; i++) {
+                augmented[i] = [...A[i], B[i]];
+            }
+            
+            // Forward elimination
+            for (let i = 0; i < n; i++) {
+                // Find pivot
+                let maxRow = i;
+                for (let j = i + 1; j < n; j++) {
+                    if (Math.abs(augmented[j][i]) > Math.abs(augmented[maxRow][i])) {
+                        maxRow = j;
+                    }
+                }
+                
+                // Swap rows
+                [augmented[i], augmented[maxRow]] = [augmented[maxRow], augmented[i]];
+                
+                // Check if pivot is zero
+                if (Math.abs(augmented[i][i]) < 1e-10) {
+                    continue;
+                }
+                
+                // Normalize the pivot row (for Gauss-Jordan)
+                if (method === 'gauss-jordan') {
+                    let pivot = augmented[i][i];
+                    for (let j = i; j <= n; j++) {
+                        augmented[i][j] /= pivot;
+                    }
+                }
+                
+                // Eliminate below and above (for Gauss-Jordan)
+                for (let j = (method === 'gauss-jordan' ? 0 : i + 1); j < n; j++) {
+                    if (j === i && method === 'gauss') continue;
+                    
+                    let factor = augmented[j][i] / (method === 'gauss-jordan' ? 1 : augmented[i][i]);
+                    for (let k = i; k <= n; k++) {
+                        augmented[j][k] -= factor * augmented[i][k];
+                    }
+                }
+            }
+            
+            // Back substitution (for Gaussian Elimination only)
+            let X = new Array(n).fill(0);
+            if (method === 'gauss') {
+                for (let i = n - 1; i >= 0; i--) {
+                    if (Math.abs(augmented[i][i]) < 1e-10) {
+                        if (Math.abs(augmented[i][n]) < 1e-10) {
+                            X[i] = 0; // Free variable
+                        } else {
+                            return { 
+                                solution: null, 
+                                nature: 'none', 
+                                message: 'No solution (inconsistent system)',
+                                matrix: A,
+                                vector: B,
+                                determinant: calculateDeterminant(A, n)
+                            };
+                        }
+                    } else {
+                        X[i] = augmented[i][n];
+                        for (let j = i + 1; j < n; j++) {
+                            X[i] -= augmented[i][j] * X[j];
+                        }
+                        X[i] /= augmented[i][i];
+                    }
+                }
+            } else {
+                // For Gauss-Jordan, solution is in the last column
+                for (let i = 0; i < n; i++) {
+                    X[i] = augmented[i][n];
+                }
+            }
+            
+            // Calculate matrix properties
+            const determinant = calculateDeterminant(A, n);
+            const rankA = calculateRank(A, n);
+            const rankAB = calculateRank(augmented.map(row => row.slice(0, n+1)), n);
+            
+            // Determine solution nature
+            if (Math.abs(determinant) > 1e-10) {
+                return { 
+                    solution: X, 
+                    nature: 'unique', 
+                    message: 'Unique solution exists',
+                    matrix: A,
+                    vector: B,
+                    determinant: determinant,
+                    rankA: rankA,
+                    rankAB: rankAB
+                };
+            } else if (rankA === rankAB && rankA < n) {
+                return { 
+                    solution: X, 
+                    nature: 'infinite', 
+                    message: 'Infinite solutions (dependent system)',
+                    matrix: A,
+                    vector: B,
+                    determinant: determinant,
+                    rankA: rankA,
+                    rankAB: rankAB
+                };
+            } else {
+                return { 
+                    solution: null, 
+                    nature: 'none', 
+                    message: 'No solution (inconsistent system)',
+                    matrix: A,
+                    vector: B,
+                    determinant: determinant,
+                    rankA: rankA,
+                    rankAB: rankAB
+                };
+            }
+        }
+        
+        function calculateDeterminant(matrix, n) {
+            if (n === 1) return matrix[0][0];
+            if (n === 2) return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+            
+            let det = 0;
+            for (let i = 0; i < n; i++) {
+                let submatrix = [];
+                for (let j = 1; j < n; j++) {
+                    submatrix[j-1] = [];
+                    for (let k = 0; k < n; k++) {
+                        if (k !== i) {
+                            submatrix[j-1].push(matrix[j][k]);
+                        }
+                    }
+                }
+                det += matrix[0][i] * calculateDeterminant(submatrix, n-1) * (i % 2 === 0 ? 1 : -1);
+            }
+            return det;
+        }
+        
+        function calculateRank(matrix, n) {
+            // Create a copy
+            let tempMatrix = matrix.map(row => [...row]);
+            let rank = 0;
+            
+            for (let i = 0; i < n; i++) {
+                // Find pivot
+                let pivotRow = -1;
+                for (let j = rank; j < n; j++) {
+                    if (Math.abs(tempMatrix[j][i]) > 1e-10) {
+                        pivotRow = j;
+                        break;
+                    }
+                }
+                
+                if (pivotRow === -1) continue;
+                
+                // Swap rows
+                [tempMatrix[rank], tempMatrix[pivotRow]] = [tempMatrix[pivotRow], tempMatrix[rank]];
+                
+                // Normalize
+                let pivot = tempMatrix[rank][i];
+                for (let j = i; j < n; j++) {
+                    tempMatrix[rank][j] /= pivot;
+                }
+                
+                // Eliminate
+                for (let j = 0; j < n; j++) {
+                    if (j !== rank && Math.abs(tempMatrix[j][i]) > 1e-10) {
+                        let factor = tempMatrix[j][i];
+                        for (let k = i; k < n; k++) {
+                            tempMatrix[j][k] -= factor * tempMatrix[rank][k];
+                        }
+                    }
+                }
+                
+                rank++;
+            }
+            
+            return rank;
+        }
+        
+        function matrixInversionMethod(A, B, n) {
+            // Simplified implementation - using Gaussian elimination for actual solution
+            return gaussianElimination(A, B, n, 'gauss');
+        }
+        
+        function luDecompositionMethod(A, B, n) {
+            // Simplified implementation - using Gaussian elimination for actual solution
+            return gaussianElimination(A, B, n, 'gauss');
+        }
+        
+        function displaySolution(result, n) {
+            // Update solution status
+            const statusElement = document.getElementById('solution-status');
+            const solutionDisplay = document.getElementById('solution-display');
+            const variablesContainer = document.getElementById('variables-container');
+            const graphPlaceholder = document.getElementById('graph-placeholder');
+            const graphLegend = document.getElementById('graph-legend');
+            
+            // Set status based on solution nature
+            if (result.nature === 'unique') {
+                statusElement.textContent = 'Unique Solution';
+                statusElement.className = 'solution-status status-unique';
+                showMessage('System solved successfully! Unique solution found.', 'success');
+            } else if (result.nature === 'infinite') {
+                statusElement.textContent = 'Infinite Solutions';
+                statusElement.className = 'solution-status status-infinite';
+                showMessage('System has infinite solutions (dependent equations).', 'warning');
+            } else {
+                statusElement.textContent = 'No Solution';
+                statusElement.className = 'solution-status status-none';
+                showMessage('System has no solution (inconsistent equations).', 'error');
+            }
+            
+            // Display solution values
+            solutionDisplay.style.display = 'none';
+            variablesContainer.innerHTML = '';
+            
+            if (result.nature === 'unique' || result.nature === 'infinite') {
+                for (let i = 0; i < n; i++) {
+                    const variableItem = document.createElement('div');
+                    variableItem.className = 'variable-item highlight';
+                    variableItem.style.animationDelay = `${i * 0.1}s`;
+                    
+                    const variableName = document.createElement('div');
+                    variableName.className = 'variable-name';
+                    variableName.innerHTML = `x<sub>${i+1}</sub>`;
+                    
+                    const variableValue = document.createElement('div');
+                    variableValue.className = result.nature === 'infinite' ? 
+                        'variable-value free-variable' : 'variable-value';
+                    
+                    if (result.nature === 'infinite' && Math.abs(result.solution[i]) < 1e-10) {
+                        variableValue.textContent = 'Free';
+                        variableValue.title = 'This variable can take any value';
+                    } else {
+                        variableValue.textContent = result.solution[i].toFixed(4);
+                    }
+                    
+                    variableItem.appendChild(variableName);
+                    variableItem.appendChild(variableValue);
+                    variablesContainer.appendChild(variableItem);
+                }
+                
+                // Add note for infinite solutions
+                if (result.nature === 'infinite') {
+                    const note = document.createElement('div');
+                    note.style.width = '100%';
+                    note.style.textAlign = 'center';
+                    note.style.marginTop = '15px';
+                    note.style.color = '#f39c12';
+                    note.style.fontStyle = 'italic';
+                    note.textContent = 'Note: System has infinite solutions. Variables marked as "Free" can take any value.';
+                    variablesContainer.appendChild(note);
+                }
+            } else {
+                variablesContainer.innerHTML = `
+                    <div style="width: 100%; text-align: center; padding: 30px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e74c3c; margin-bottom: 15px;"></i>
+                        <h4 style="color: #e74c3c;">No Solution Exists</h4>
+                        <p>The system of equations is inconsistent.</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Equations contradict each other (parallel lines/planes).</p>
+                    </div>
+                `;
+            }
+            
+            // Update matrix properties
+            document.getElementById('prop-size').textContent = `${n} × ${n}`;
+            document.getElementById('prop-method').textContent = document.getElementById('solution-method').value.toUpperCase();
+            document.getElementById('prop-determinant').textContent = result.determinant.toFixed(4);
+            document.getElementById('prop-rank').textContent = result.rankA || 'N/A';
+            document.getElementById('prop-consistency').textContent = 
+                result.nature === 'none' ? 'Inconsistent' : 'Consistent';
+            document.getElementById('prop-type').textContent = 
+                result.nature === 'unique' ? 'Unique' : 
+                result.nature === 'infinite' ? 'Infinite' : 'None';
+            
+            // Create graphical representation
+            createGraphicalRepresentation(result, n);
+        }
+        
+        function createGraphicalRepresentation(result, n) {
+            const graphCanvas = document.getElementById('graph-canvas');
+            const graphPlaceholder = document.getElementById('graph-placeholder');
+            const graphLegend = document.getElementById('graph-legend');
+            
+            // Clear previous content
+            graphPlaceholder.style.display = 'none';
+            graphCanvas.innerHTML = '';
+            graphLegend.innerHTML = '';
+            
+            if (n === 2) {
+                create2DGraph(result, graphCanvas, graphLegend);
+            } else if (n === 3) {
+                create3DProjection(result, graphCanvas, graphLegend);
+            } else {
+                // For n > 3, show a conceptual representation
+                createNDConceptual(result, graphCanvas, graphLegend, n);
+            }
+        }
+        
+        function create2DGraph(result, container, legend) {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            const padding = 40;
+            const graphWidth = width - 2 * padding;
+            const graphHeight = height - 2 * padding;
+            
+            // Create SVG element
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '100%');
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            container.appendChild(svg);
+            
+            // Draw coordinate axes
+            // X-axis
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', padding);
+            xAxis.setAttribute('y1', height/2);
+            xAxis.setAttribute('x2', width - padding);
+            xAxis.setAttribute('y2', height/2);
+            xAxis.setAttribute('stroke', '#7f8c8d');
+            xAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(xAxis);
+            
+            // Y-axis
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', width/2);
+            yAxis.setAttribute('y1', padding);
+            yAxis.setAttribute('x2', width/2);
+            yAxis.setAttribute('y2', height - padding);
+            yAxis.setAttribute('stroke', '#7f8c8d');
+            yAxis.setAttribute('stroke-width', '1');
+            svg.appendChild(yAxis);
+            
+            // Add axis labels
+            const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            xLabel.setAttribute('x', width - padding + 10);
+            xLabel.setAttribute('y', height/2 - 5);
+            xLabel.setAttribute('fill', '#7f8c8d');
+            xLabel.setAttribute('font-size', '12');
+            xLabel.textContent = 'x₁';
+            svg.appendChild(xLabel);
+            
+            const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yLabel.setAttribute('x', width/2 + 10);
+            yLabel.setAttribute('y', padding - 10);
+            yLabel.setAttribute('fill', '#7f8c8d');
+            yLabel.setAttribute('font-size', '12');
+            yLabel.textContent = 'x₂';
+            svg.appendChild(yLabel);
+            
+            // Draw grid lines
+            for (let i = 1; i <= 5; i++) {
+                const x = padding + (i * graphWidth / 6);
+                const y = padding + (i * graphHeight / 6);
+                
+                // Vertical grid line
+                const vLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                vLine.setAttribute('x1', x);
+                vLine.setAttribute('y1', padding);
+                vLine.setAttribute('x2', x);
+                vLine.setAttribute('y2', height - padding);
+                vLine.setAttribute('stroke', '#ecf0f1');
+                vLine.setAttribute('stroke-width', '0.5');
+                svg.appendChild(vLine);
+                
+                // Horizontal grid line
+                const hLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                hLine.setAttribute('x1', padding);
+                hLine.setAttribute('y1', y);
+                hLine.setAttribute('x2', width - padding);
+                hLine.setAttribute('y2', y);
+                hLine.setAttribute('stroke', '#ecf0f1');
+                hLine.setAttribute('stroke-width', '0.5');
+                svg.appendChild(hLine);
+            }
+            
+            // Draw lines for each equation
+            const lineColors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12'];
+            
+            for (let i = 0; i < 2; i++) {
+                const a = result.matrix[i][0];
+                const b = result.matrix[i][1];
+                const c = result.vector[i];
+                
+                // Convert to slope-intercept form: y = (c - a*x)/b
+                // Calculate two points for the line
+                let x1 = -2, x2 = 2;
+                let y1, y2;
+                
+                if (Math.abs(b) > 1e-10) {
+                    y1 = (c - a * x1) / b;
+                    y2 = (c - a * x2) / b;
+                } else {
+                    // Vertical line: a*x = c
+                    x1 = x2 = c / a;
+                    y1 = -2;
+                    y2 = 2;
+                }
+                
+                // Scale to graph coordinates
+                const scaleX = (val) => width/2 + val * (graphWidth/4);
+                const scaleY = (val) => height/2 - val * (graphHeight/4);
+                
+                // Draw the line
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', scaleX(x1));
+                line.setAttribute('y1', scaleY(y1));
+                line.setAttribute('x2', scaleX(x2));
+                line.setAttribute('y2', scaleY(y2));
+                line.setAttribute('stroke', lineColors[i]);
+                line.setAttribute('stroke-width', '2');
+                line.setAttribute('stroke-dasharray', result.nature === 'none' ? '5,5' : 'none');
+                svg.appendChild(line);
+                
+                // Add equation label
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', scaleX(x2) + 5);
+                label.setAttribute('y', scaleY(y2) + (i === 0 ? -5 : 15));
+                label.setAttribute('fill', lineColors[i]);
+                label.setAttribute('font-size', '10');
+                label.setAttribute('font-weight', 'bold');
+                label.textContent = `${a.toFixed(1)}x₁ + ${b.toFixed(1)}x₂ = ${c.toFixed(1)}`;
+                svg.appendChild(label);
+                
+                // Add to legend
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.innerHTML = `
+                    <div class="legend-color ${i === 0 ? 'color-line1' : 'color-line2'}"></div>
+                    <span>Equation ${i+1}</span>
+                `;
+                legend.appendChild(legendItem);
+            }
+            
+            // Draw solution point if unique solution exists
+            if (result.nature === 'unique') {
+                const solX = result.solution[0];
+                const solY = result.solution[1];
+                const scaleX = (val) => width/2 + val * (graphWidth/4);
+                const scaleY = (val) => height/2 - val * (graphHeight/4);
+                
+                // Draw solution point
+                const solutionPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                solutionPoint.setAttribute('cx', scaleX(solX));
+                solutionPoint.setAttribute('cy', scaleY(solY));
+                solutionPoint.setAttribute('r', '6');
+                solutionPoint.setAttribute('fill', '#f39c12');
+                solutionPoint.setAttribute('stroke', '#fff');
+                solutionPoint.setAttribute('stroke-width', '2');
+                svg.appendChild(solutionPoint);
+                
+                // Add solution label
+                const solutionLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                solutionLabel.setAttribute('x', scaleX(solX) + 10);
+                solutionLabel.setAttribute('y', scaleY(solY) - 10);
+                solutionLabel.setAttribute('fill', '#f39c12');
+                solutionLabel.setAttribute('font-size', '12');
+                solutionLabel.setAttribute('font-weight', 'bold');
+                solutionLabel.textContent = `Solution: (${solX.toFixed(2)}, ${solY.toFixed(2)})`;
+                svg.appendChild(solutionLabel);
+                
+                // Add to legend
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.innerHTML = `
+                    <div class="legend-color color-solution"></div>
+                    <span>Solution Point</span>
+                `;
+                legend.appendChild(legendItem);
+            }
+        }
+        
+        function create3DProjection(result, container, legend) {
+            // Create a 3D-like projection
+            container.innerHTML = `
+                <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <div style="position: relative; width: 200px; height: 200px; transform: rotateX(60deg) rotateZ(45deg); transform-style: preserve-3d;">
+                        <!-- Coordinate axes -->
+                        <div style="position: absolute; top: 100px; left: 100px; width: 2px; height: 100px; background: #e74c3c; transform-origin: top; transform: rotateX(90deg);"></div>
+                        <div style="position: absolute; top: 100px; left: 100px; width: 2px; height: 100px; background: #3498db; transform-origin: top;"></div>
+                        <div style="position: absolute; top: 100px; left: 100px; width: 100px; height: 2px; background: #2ecc71; transform-origin: left; transform: rotateY(90deg);"></div>
+                        
+                        <!-- Solution point if unique -->
+                        ${result.nature === 'unique' ? `
+                            <div style="position: absolute; top: ${100 - result.solution[1]*20}px; left: ${100 + result.solution[0]*20}px; width: 8px; height: 8px; background: #f39c12; border-radius: 50%; transform: translate(-4px, -4px); box-shadow: 0 0 10px rgba(243, 156, 18, 0.8);"></div>
+                        ` : ''}
+                    </div>
+                    
+                    <div style="margin-top: 30px; text-align: center;">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">3D System Visualization</h4>
+                        <p style="color: #7f8c8d; font-size: 0.9rem;">
+                            ${result.nature === 'unique' ? 
+                                'Three planes intersecting at a single point' : 
+                                result.nature === 'infinite' ? 
+                                'Planes intersect along a line (infinite solutions)' : 
+                                'Planes do not all intersect (no solution)'}
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            // Create legend
+            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12'];
+            const labels = ['x₁-axis', 'x₂-axis', 'x₃-axis', 'Solution'];
+            
+            colors.forEach((color, i) => {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.innerHTML = `
+                    <div class="legend-color" style="background-color: ${color};"></div>
+                    <span>${labels[i]}</span>
+                `;
+                legend.appendChild(legendItem);
+            });
+        }
+        
+        function createNDConceptual(result, container, legend, n) {
+            container.innerHTML = `
+                <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <div style="position: relative; width: 200px; height: 200px;">
+                        <!-- Conceptual n-dimensional representation -->
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150px; height: 150px; border: 2px dashed #3498db; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <div style="font-size: 2.5rem; color: #3498db; font-weight: bold;">${n}D</div>
+                        </div>
+                        
+                        ${result.nature === 'unique' ? `
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background: #f39c12; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                        ` : ''}
+                        
+                        <!-- Lines representing equations -->
+                        ${Array.from({length: Math.min(n, 5)}).map((_, i) => `
+                            <div style="position: absolute; top: 50%; left: 50%; width: 2px; height: 80px; background: ${['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12'][i]}; transform-origin: top; transform: translate(-50%, -50%) rotate(${i * 72}deg);"></div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="margin-top: 30px; text-align: center;">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">${n}-Dimensional System</h4>
+                        <p style="color: #7f8c8d; font-size: 0.9rem;">
+                            ${result.nature === 'unique' ? 
+                                'Hyperplanes intersect at a unique point' : 
+                                result.nature === 'infinite' ? 
+                                'Hyperplanes intersect in a subspace' : 
+                                'Hyperplanes do not all intersect'}
+                        </p>
+                        <p style="color: #7f8c8d; font-size: 0.8rem; margin-top: 10px;">
+                            Visualization limited to conceptual representation for ${n}-dimensional space
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            // Add CSS for pulse animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulse {
+                    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                    50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.7; }
+                    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                }
+            `;
+            container.appendChild(style);
+        }
+        
+        function resetResults() {
+            document.getElementById('solution-status').textContent = 'Ready';
+            document.getElementById('solution-status').className = 'solution-status';
+            
+            document.getElementById('solution-display').style.display = 'block';
+            document.getElementById('solution-display').innerHTML = `
+                <p style="text-align: center; color: #7f8c8d; padding: 40px 20px;">
+                    <i class="fas fa-calculator" style="font-size: 3rem; margin-bottom: 15px; display: block; color: #bdc3c7;"></i>
+                    Enter your linear system and click "Solve System" to see the solution
+                </p>
+            `;
+            
+            document.getElementById('variables-container').innerHTML = '';
+            
+            document.getElementById('prop-size').textContent = '-';
+            document.getElementById('prop-method').textContent = '-';
+            document.getElementById('prop-determinant').textContent = '-';
+            document.getElementById('prop-rank').textContent = '-';
+            document.getElementById('prop-consistency').textContent = '-';
+            document.getElementById('prop-type').textContent = '-';
+            
+            // Reset graphical representation
+            const graphCanvas = document.getElementById('graph-canvas');
+            const graphPlaceholder = document.getElementById('graph-placeholder');
+            const graphLegend = document.getElementById('graph-legend');
+            
+            graphCanvas.innerHTML = '';
+            graphPlaceholder.style.display = 'flex';
+            graphLegend.innerHTML = '';
+        }
+        
+        function showMessage(message, type) {
+            // Remove any existing message
+            const existingMessage = document.getElementById('temp-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Create message element
+            const messageElement = document.createElement('div');
+            messageElement.id = 'temp-message';
+            messageElement.style.position = 'fixed';
+            messageElement.style.top = '100px';
+            messageElement.style.right = '30px';
+            messageElement.style.padding = '15px 25px';
+            messageElement.style.borderRadius = '8px';
+            messageElement.style.fontWeight = '600';
+            messageElement.style.zIndex = '1000';
+            messageElement.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            messageElement.style.transition = 'all 0.3s';
+            messageElement.style.maxWidth = '300px';
+            
+            // Set style based on type
+            if (type === 'success') {
+                messageElement.style.backgroundColor = '#d5f4e6';
+                messageElement.style.color = '#27ae60';
+                messageElement.style.borderLeft = '5px solid #27ae60';
+            } else if (type === 'warning') {
+                messageElement.style.backgroundColor = '#fdebd0';
+                messageElement.style.color = '#f39c12';
+                messageElement.style.borderLeft = '5px solid #f39c12';
+            } else {
+                messageElement.style.backgroundColor = '#fadbd8';
+                messageElement.style.color = '#e74c3c';
+                messageElement.style.borderLeft = '5px solid #e74c3c';
+            }
+            
+            messageElement.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'times-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(messageElement);
+            
+            // Auto-remove after 3 seconds
+            setTimeout(() => {
+                messageElement.style.opacity = '0';
+                messageElement.style.transform = 'translateX(100px)';
+                setTimeout(() => {
+                    if (messageElement.parentNode) {
+                        messageElement.remove();
+                    }
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
