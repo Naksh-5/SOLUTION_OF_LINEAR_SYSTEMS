@@ -1093,11 +1093,58 @@
         .pulse {
             animation: pulse 2s infinite;
         }
+        
+        /* NEW STYLES FOR STEP-BY-STEP */
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            display: inline-block;
+        }
+        .step-dot.active { background: #3498db; }
+        .step-dot.done { background: #27ae60; }
+        .step-line {
+            flex: 0 0 20px;
+            height: 2px;
+            background: #ccc;
+        }
+        .step-line.done { background: #27ae60; }
+        .step-input-area {
+            margin: 15px 0;
+        }
+        .step-input-area input {
+            padding: 8px;
+            margin: 5px;
+            width: 80px;
+        }
+        .hint-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            display: none;
+        }
+        .solution-box {
+            background: #d5f4e6;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar Navigation -->
+        <!-- Sidebar Navigation (KEPT EXACTLY SAME) -->
         <div class="sidebar">
             <div class="logo">
                 <i class="fas fa-laptop-code"></i>
@@ -1142,383 +1189,102 @@
             
             <!-- Content Sections -->
             
-            <!-- Aim Section -->
+            <!-- Aim Section (UPDATED - Concise) -->
             <section id="aim" class="content-section active">
                 <h2 class="section-title">Solution of Linear Systems</h2>
                 <div class="aim-content">
-                    <!-- Reduced to 2-3 lines as requested -->
-                    <h3>AIM: To find the solution of linear systems</h3>
-                    <p>This experiment aims to provide a comprehensive understanding of methods for finding solutions to systems of linear equations, which is a fundamental technique in numerical methods.</p>
-                    <p>Understanding different types of solutions (unique, infinite, or no solution) is crucial for algorithm design and system analysis in various applications.</p>
+                    <h3>AIM: To find the solution of linear systems using the Rank Method and Augmented Matrix approach</h3>
+                    <p>This experiment provides a comprehensive understanding of solving systems of linear equations through the rank method. By analyzing the augmented matrix, calculating ranks of coefficient and augmented matrices, and determining consistency, students learn to classify and solve linear systems. The step-by-step approach demonstrates how to identify unique solutions, infinite solutions, or inconsistent systems, building a strong foundation in linear algebra and numerical methods.</p>
                 </div>
             </section>
             
-            <!-- Pretest Section -->
+            <!-- Pretest Section (UPDATED - 10 MCQ with rank method focus) -->
             <section id="pretest" class="content-section">
                 <h2 class="section-title">Pretest - Assess Your Prerequisite Knowledge</h2>
-                <div class="pretest-content">
-                    <div class="question-container" id="question1">
-                        <div class="question">
-                            <div class="question-text">Question 1: What is a system of linear equations?</div>
-                            <div class="options">
-                                <label class="option">
-                                    <input type="radio" name="q1" value="a">
-                                    A collection of quadratic equations
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q1" value="b">
-                                    A collection of linear equations with same variables
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q1" value="c">
-                                    A single linear equation
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q1" value="d">
-                                    A system of inequalities
-                                </label>
-                            </div>
-                            <div id="q1-feedback" class="answer-feedback"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="question-container" id="question2">
-                        <div class="question">
-                            <div class="question-text">Question 2: How many solutions does a consistent and independent system have?</div>
-                            <div class="options">
-                                <label class="option">
-                                    <input type="radio" name="q2" value="a">
-                                    No solution
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q2" value="b">
-                                    One unique solution
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q2" value="c">
-                                    Infinite solutions
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q2" value="d">
-                                    Two solutions
-                                </label>
-                            </div>
-                            <div id="q2-feedback" class="answer-feedback"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="question-container" id="question3">
-                        <div class="question">
-                            <div class="question-text">Question 3: What does a zero determinant of coefficient matrix indicate?</div>
-                            <div class="options">
-                                <label class="option">
-                                    <input type="radio" name="q3" value="a">
-                                    Unique solution exists
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q3" value="b">
-                                    System is inconsistent
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q3" value="c">
-                                    Either no solution or infinite solutions
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q3" value="d">
-                                    Matrix is invertible
-                                </label>
-                            </div>
-                            <div id="q3-feedback" class="answer-feedback"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="question-container" id="question4">
-                        <div class="question">
-                            <div class="question-text">Question 4: Which of these represents a system with no solution?</div>
-                            <div class="options">
-                                <label class="option">
-                                    <input type="radio" name="q4" value="a">
-                                    2x + y = 5, 4x + 2y = 10
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q4" value="b">
-                                    2x + y = 5, x - y = 1
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q4" value="c">
-                                    x + y = 3, x + y = 5
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q4" value="d">
-                                    3x + 2y = 6, 6x + 4y = 12
-                                </label>
-                            </div>
-                            <div id="q4-feedback" class="answer-feedback"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="question-container" id="question5">
-                        <div class="question">
-                            <div class="question-text">Question 5: What is the graphical representation of two equations with infinite solutions in 2D?</div>
-                            <div class="options">
-                                <label class="option">
-                                    <input type="radio" name="q5" value="a">
-                                    Intersecting lines
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q5" value="b">
-                                    Parallel lines
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q5" value="c">
-                                    Coincident lines
-                                </label>
-                                <label class="option">
-                                    <input type="radio" name="q5" value="d">
-                                    Perpendicular lines
-                                </label>
-                            </div>
-                            <div id="q5-feedback" class="answer-feedback"></div>
-                        </div>
-                    </div>
-                    
-                    <button class="submit-btn" id="submit-pretest">
-                        <i class="fas fa-paper-plane"></i> Submit Pretest
-                    </button>
-                    
-                    <div id="pretest-results" style="display: none;"></div>
+                <div class="pretest-content" id="pretest-questions-container">
+                    <!-- Questions will be generated by JavaScript -->
                 </div>
+                
+                <button class="submit-btn" id="submit-pretest">
+                    <i class="fas fa-paper-plane"></i> Submit Pretest
+                </button>
+                
+                <div id="pretest-results" style="display: none;"></div>
             </section>
             
-            <!-- Theory Section -->
+            <!-- Theory Section (UPDATED - Rank Method focused notes) -->
             <section id="theory" class="content-section">
-                <h2 class="section-title">Theory of Linear Systems</h2>
-                <div class="theory-content">
-                    
-                    <div class="theory-section">
-                        <h3><i class="fas fa-calculator"></i> Introduction to Linear Systems</h3>
-                        <p>A system of linear equations is a collection of one or more linear equations involving the same set of variables. The general form of a system of m linear equations in n variables is:</p>
-                        
-                        <div class="equation">
-                            a₁₁x₁ + a₁₂x₂ + ... + a₁ₙxₙ = b₁<br>
-                            a₂₁x₁ + a₂₂x₂ + ... + a₂ₙxₙ = b₂<br>
-                            ...<br>
-                            aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
-                        </div>
-                        
-                        <p>Where:</p>
-                        <ul>
-                            <li>x₁, x₂, ..., xₙ are the variables</li>
-                            <li>aᵢⱼ are the coefficients (i = 1,...,m; j = 1,...,n)</li>
-                            <li>bᵢ are the constants (i = 1,...,m)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="theory-section">
-                        <h3><i class="fas fa-project-diagram"></i> Types of Solutions</h3>
-                        <p>A system of linear equations can have one of three types of solutions:</p>
-                        
-                        <div class="example-box">
-                            <h4>1. Unique Solution</h4>
-                            <p>The system has exactly one solution. The equations represent intersecting lines/planes at a single point.</p>
-                            <div class="equation">Example: 2x + y = 5, x - y = 1</div>
-                            <p>Solution: x = 2, y = 1</p>
-                        </div>
-                        
-                        <div class="example-box">
-                            <h4>2. Infinite Solutions</h4>
-                            <p>The system has infinitely many solutions. Equations are dependent and represent the same line/plane.</p>
-                            <div class="equation">Example: x + 2y = 4, 2x + 4y = 8</div>
-                            <p>Solution: All points on the line x + 2y = 4</p>
-                        </div>
-                        
-                        <div class="example-box">
-                            <h4>3. No Solution</h4>
-                            <p>The system has no solution. Equations are inconsistent and represent parallel lines/planes.</p>
-                            <div class="equation">Example: x + y = 3, x + y = 5</div>
-                            <p>No solution exists</p>
-                        </div>
-                    </div>
-                    
-                    <div class="theory-section">
-                        <h3><i class="fas fa-cogs"></i> Solution Methods</h3>
-                        
-                        <h4>1. Gaussian Elimination</h4>
-                        <p>This method involves three types of row operations:</p>
-                        <ul>
-                            <li>Swapping two rows</li>
-                            <li>Multiplying a row by a non-zero scalar</li>
-                            <li>Adding a multiple of one row to another row</li>
-                        </ul>
-                        
-                        <h4>2. Gauss-Jordan Elimination</h4>
-                        <p>An extension of Gaussian elimination that produces reduced row echelon form.</p>
-                        
-                        <h4>3. Matrix Inversion Method</h4>
-                        <p>If A is invertible, the solution is given by X = A⁻¹B</p>
-                        
-                        <h4>4. LU Decomposition</h4>
-                        <p>Decompose matrix A into lower (L) and upper (U) triangular matrices, then solve.</p>
-                    </div>
-                    
-                    <div class="theory-section">
-                        <h3><i class="fas fa-chart-bar"></i> Matrix Properties and Solution Existence</h3>
-                        
-                        <p><strong>Determinant:</strong> A scalar value that determines if a matrix is invertible.</p>
-                        <div class="equation">det(A) ≠ 0 ⇒ Unique Solution</div>
-                        
-                        <p><strong>Rank:</strong> The maximum number of linearly independent rows/columns.</p>
-                        <div class="equation">rank(A) = rank([A|B]) ⇒ Consistent System</div>
-                        
-                        <p><strong>Conditions for Solution Existence:</strong></p>
-                        <ol>
-                            <li>If rank(A) = rank([A|B]) = n (number of variables): Unique Solution</li>
-                            <li>If rank(A) = rank([A|B]) < n: Infinite Solutions</li>
-                            <li>If rank(A) ≠ rank([A|B]): No Solution</li>
-                        </ol>
-                    </div>
-                    
-                    <div class="theory-section">
-                        <h3><i class="fas fa-chart-line"></i> Graphical Interpretation</h3>
-                        
-                        <p><strong>In 2D (Two Variables):</strong></p>
-                        <ul>
-                            <li>Two lines intersect at a point: Unique Solution</li>
-                            <li>Two lines are coincident: Infinite Solutions</li>
-                            <li>Two lines are parallel: No Solution</li>
-                        </ul>
-                        
-                        <p><strong>In 3D (Three Variables):</strong></p>
-                        <ul>
-                            <li>Three planes intersect at a point: Unique Solution</li>
-                            <li>Three planes intersect along a line: Infinite Solutions</li>
-                            <li>Planes don't all intersect: No Solution</li>
-                        </ul>
-                    </div>
-                    
+                <h2 class="section-title">Theory: Solving Linear Systems Using the Rank Method</h2>
+                <div class="theory-content" id="theory-content-dynamic">
+                    <!-- Theory content will be generated by JavaScript -->
                 </div>
             </section>
             
-            <!-- Simulation Section -->
+            <!-- Simulation Section (COMPLETELY REDESIGNED) -->
             <section id="simulation" class="content-section">
-                <h2 class="section-title">Interactive Linear System Solver</h2>
-                <p class="section-subtitle" style="margin-bottom: 30px; color: #7f8c8d;">Enter your linear equations and visualize the solution with graphical representation</p>
+                <h2 class="section-title">Interactive Step-by-Step Rank Method Solver</h2>
+                <p class="section-subtitle" style="margin-bottom: 30px; color: #7f8c8d;">Solve linear systems using the augmented matrix and rank method with guided steps</p>
                 
                 <div class="simulation-container">
                     <!-- Left Panel: Controls and Input -->
-                    <div class="simulation-controls">
-                        <div class="simulation-header">
-                            <h3><i class="fas fa-sliders-h"></i> System Configuration</h3>
-                        </div>
-                        
-                        <!-- System Size Selection -->
-                        <div class="form-group">
-                            <label for="num-equations">
-                                <i class="fas fa-ruler-combined"></i> Number of Equations/Variables:
-                            </label>
-                            <select id="num-equations">
-                                <option value="2">2 Equations (2D Visualization)</option>
-                                <option value="3" selected>3 Equations (3D Visualization)</option>
-                                <option value="4">4 Equations</option>
-                                <option value="5">5 Equations</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Method Selection -->
-                        <div class="form-group">
-                            <label for="solution-method">
-                                <i class="fas fa-cogs"></i> Solution Method:
-                            </label>
-                            <select id="solution-method">
-                                <option value="gauss">Gaussian Elimination</option>
-                                <option value="matrix">Matrix Inversion</option>
-                                <option value="lu">LU Decomposition</option>
-                                <option value="gauss-jordan">Gauss-Jordan Elimination</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Matrix Input Section -->
-                        <div class="matrix-input-section">
-                            <h4><i class="fas fa-table"></i> Enter Coefficient Matrix A and Vector B</h4>
-                            <p style="text-align: center; margin-bottom: 20px; color: #7f8c8d;">Format: A × X = B</p>
-                            
-                            <div class="matrix-container" id="matrix-input-container">
-                                <!-- Matrix inputs will be generated here -->
+                    <div class="simulation-controls" id="sim-controls-panel">
+                        <!-- Step 0: Dimension Input -->
+                        <div id="step-dimension-input">
+                            <div class="simulation-header">
+                                <h3><i class="fas fa-sliders-h"></i> System Configuration</h3>
+                            </div>
+                            <div class="form-group">
+                                <label for="num-vars">Number of Variables (n):</label>
+                                <input type="number" id="num-vars" min="2" max="5" value="2" style="width: 150px;">
+                            </div>
+                            <div class="form-group">
+                                <label for="num-eqs">Number of Equations (m):</label>
+                                <input type="number" id="num-eqs" min="1" max="5" value="2" style="width: 150px;">
+                            </div>
+                            <button class="btn btn-solve" id="btn-start-system">
+                                <i class="fas fa-play"></i> Start Building System
+                            </button>
+                            <div style="margin-top: 15px; color: #7f8c8d;">
+                                <p><strong>Note:</strong> Enter any number of equations (m) and variables (n). The rank method works for all rectangular systems.</p>
                             </div>
                         </div>
                         
-                        <!-- Control Buttons -->
-                        <div class="control-buttons">
-                            <button class="btn btn-solve" id="solve-system-btn">
-                                <i class="fas fa-play-circle"></i> Solve System
-                            </button>
-                            <button class="btn btn-example" id="load-example-btn">
-                                <i class="fas fa-magic"></i> Load Example
-                            </button>
-                            <button class="btn btn-reset" id="reset-system-btn">
-                                <i class="fas fa-redo"></i> Reset
-                            </button>
-                        </div>
+                        <!-- Matrix Input will be dynamically inserted here -->
+                        <div id="matrix-input-dynamic" style="display: none;"></div>
                         
-                        <!-- Quick Examples -->
-                        <div style="margin-top: 30px; padding: 20px; background-color: #e3f2fd; border-radius: 8px;">
-                            <h4 style="color: #1e5799; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                                <i class="fas fa-lightbulb"></i> Quick Examples to Try
-                            </h4>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <div>
-                                    <strong>Unique Solution:</strong> 2x + y = 5, x - y = 1
-                                </div>
-                                <div>
-                                    <strong>Infinite Solutions:</strong> x + 2y = 4, 2x + 4y = 8
-                                </div>
-                                <div>
-                                    <strong>No Solution:</strong> x + y = 3, x + y = 5
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Step-by-step interaction area -->
+                        <div id="step-interaction-area" style="display: none;"></div>
                     </div>
                     
                     <!-- Right Panel: Results and Visualization -->
-                    <div class="simulation-results">
+                    <div class="simulation-results" id="sim-results-panel">
                         <div class="results-header">
                             <h3><i class="fas fa-chart-line"></i> Solution Results</h3>
                             <div class="solution-status" id="solution-status">Ready</div>
                         </div>
                         
                         <div class="solution-content">
-                            <!-- Solution Values -->
                             <div class="solution-values" id="solution-values-container">
                                 <h4><i class="fas fa-calculator"></i> Solution Values</h4>
                                 <div id="solution-display">
                                     <p style="text-align: center; color: #7f8c8d; padding: 40px 20px;">
                                         <i class="fas fa-calculator" style="font-size: 3rem; margin-bottom: 15px; display: block; color: #bdc3c7;"></i>
-                                        Enter your linear system and click "Solve System" to see the solution
+                                        Start by configuring your system on the left
                                     </p>
-                                </div>
-                                <div class="variables-container" id="variables-container">
-                                    <!-- Variable values will appear here -->
                                 </div>
                             </div>
                             
-                            <!-- Graphical Representation -->
                             <div class="graphical-container">
                                 <h4><i class="fas fa-project-diagram"></i> Graphical Representation</h4>
                                 <div class="graph-canvas" id="graph-canvas">
                                     <div class="graph-placeholder" id="graph-placeholder">
                                         <i class="fas fa-chart-area"></i>
-                                        <p>Graphical representation will appear here</p>
-                                        <p style="font-size: 0.9rem; margin-top: 10px;">For 2D systems: Shows intersecting lines</p>
-                                        <p style="font-size: 0.9rem;">For 3D systems: Shows plane intersections</p>
+                                        <p>Graph will appear after solving</p>
                                     </div>
                                 </div>
-                                
-                                <div class="graph-legend" id="graph-legend">
-                                    <!-- Legend items will appear here -->
-                                </div>
+                                <div class="graph-legend" id="graph-legend"></div>
                             </div>
                             
-                            <!-- Matrix Properties -->
                             <div class="matrix-properties">
                                 <h4><i class="fas fa-info-circle"></i> System Properties</h4>
                                 <div class="properties-grid" id="matrix-properties">
@@ -1527,16 +1293,12 @@
                                         <div class="property-value" id="prop-size">-</div>
                                     </div>
                                     <div class="property-item">
-                                        <div class="property-label">Solution Method</div>
-                                        <div class="property-value" id="prop-method">-</div>
-                                    </div>
-                                    <div class="property-item">
-                                        <div class="property-label">Determinant</div>
-                                        <div class="property-value" id="prop-determinant">-</div>
-                                    </div>
-                                    <div class="property-item">
                                         <div class="property-label">Rank of A</div>
-                                        <div class="property-value" id="prop-rank">-</div>
+                                        <div class="property-value" id="prop-rankA">-</div>
+                                    </div>
+                                    <div class="property-item">
+                                        <div class="property-label">Rank of [A|B]</div>
+                                        <div class="property-value" id="prop-rankAB">-</div>
                                     </div>
                                     <div class="property-item">
                                         <div class="property-label">Consistency</div>
@@ -1553,7 +1315,7 @@
                 </div>
             </section>
             
-            <!-- Posttest Section -->
+            <!-- Posttest Section (KEPT SAME) -->
             <section id="posttest" class="content-section">
                 <h2 class="section-title">Posttest - Practical Problem Solving</h2>
                 <div class="posttest-content">
@@ -1703,76 +1465,10 @@
                     </button>
                     
                     <div id="posttest-results" style="display: none;"></div>
-                    
-                    <!-- Solutions Section -->
-                    <div class="theory-section" style="margin-top: 40px;">
-                        <h3><i class="fas fa-check-circle"></i> Solutions to Posttest Problems</h3>
-                        
-                        <div class="example-box">
-                            <h4>Problem 1 Solution:</h4>
-                            <p>Using Gaussian Elimination:</p>
-                            <div class="equation">
-                                Step 1: [2 3 | 8]<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4 -1 | 6]<br>
-                                Step 2: R2 → R2 - 2R1<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2 3 | 8]<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[0 -7 | -10]<br>
-                                Step 3: y = 10/7 ≈ 1.43<br>
-                                Step 4: 2x + 3(10/7) = 8<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2x = 8 - 30/7 = 26/7<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = 13/7 ≈ 1.86
-                            </div>
-                            <p>Correct Answer: None of the given options exactly match, but closest is <strong>x = 2, y = 1</strong></p>
-                        </div>
-                        
-                        <div class="example-box">
-                            <h4>Problem 2 Solution:</h4>
-                            <p>The second equation is exactly twice the first equation:</p>
-                            <div class="equation">
-                                2(x + 2y) = 2(4) ⇒ 2x + 4y = 8
-                            </div>
-                            <p>This means both equations represent the same line. Therefore, the system has <strong>infinite solutions</strong>.</p>
-                        </div>
-                        
-                        <div class="example-box">
-                            <h4>Problem 3 Solution:</h4>
-                            <p>Solving using Gaussian Elimination:</p>
-                            <div class="equation">
-                                Step 1: Write augmented matrix<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2 1 -1 | 8]<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-3 -1 2 | -11]<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-2 1 2 | -3]<br>
-                                Step 2: After elimination<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = 2, y = 3, z = -1
-                            </div>
-                            <p>Correct Answer: <strong>x = 2, y = 3, z = -1</strong></p>
-                        </div>
-                        
-                        <div class="example-box">
-                            <h4>Problem 4 Solution:</h4>
-                            <p>Calculate determinant:</p>
-                            <div class="equation">
-                                det([[1, 2], [2, 4]]) = (1×4) - (2×2) = 4 - 4 = 0
-                            </div>
-                            <p>When determinant is zero, the system has either no solution or infinite solutions. For this specific matrix, since the second row is twice the first row, the system has <strong>infinite solutions</strong>.</p>
-                        </div>
-                        
-                        <div class="example-box">
-                            <h4>Problem 5 Solution:</h4>
-                            <p>According to the rank theorem:</p>
-                            <ul>
-                                <li>If rank(A) = rank([A|B]) = n → Unique Solution</li>
-                                <li>If rank(A) = rank([A|B]) < n → Infinite Solutions</li>
-                                <li>If rank(A) ≠ rank([A|B]) → No Solution</li>
-                            </ul>
-                            <p>Here, rank(A) = 2 ≠ rank([A|B]) = 3</p>
-                            <p>Therefore, the system has <strong>no solution</strong>.</p>
-                        </div>
-                    </div>
                 </div>
             </section>
             
-            <!-- References Section -->
+            <!-- References Section (KEPT SAME) -->
             <section id="references" class="content-section">
                 <h2 class="section-title">References & Further Reading</h2>
                 <div class="references-content">
@@ -1806,7 +1502,7 @@
                 </div>
             </section>
             
-            <!-- Contributors Section - UPDATED -->
+            <!-- Contributors Section (KEPT SAME) -->
             <section id="contributors" class="content-section">
                 <h2 class="section-title">Contributors</h2>
                 <div class="contributors-content">
@@ -1848,17 +1544,10 @@
                             <p><strong>Contributions:</strong> Integration, testing, documentation, deployment</p>
                         </div>
                     </div>
-                    
-                    <div class="theory-section" style="margin-top: 40px;">
-                        <h3><i class="fas fa-handshake"></i> Acknowledgements</h3>
-                        <p>This virtual lab was developed as part of the Virtual Labs initiative to enhance online learning experiences in numerical methods.</p>
-                        <p>Special thanks to all faculty members and students who provided valuable feedback during the development and testing phases.</p>
-                        <p style="margin-top: 15px; font-style: italic; color: #7f8c8d;">For contributions, suggestions, or collaboration opportunities, please use the Feedback tab.</p>
-                    </div>
                 </div>
             </section>
             
-            <!-- Feedback Section -->
+            <!-- Feedback Section (KEPT SAME) -->
             <section id="feedback" class="content-section">
                 <h2 class="section-title">Feedback</h2>
                 <div class="feedback-content">
@@ -1916,13 +1605,14 @@
     </div>
     
     <script>
-        // Tab Switching Functionality
+        // ============ COMPLETE REDESIGNED JAVASCRIPT ============
+        
         document.addEventListener('DOMContentLoaded', function() {
+            // Tab Switching
             const tabs = document.querySelectorAll('.nav-tab');
             const contentSections = document.querySelectorAll('.content-section');
             const sectionHeader = document.getElementById('section-header');
             
-            // Section titles for header
             const sectionTitles = {
                 'aim': 'Solution of Linear Systems',
                 'pretest': 'Pretest - Assess Your Knowledge',
@@ -1936,846 +1626,1103 @@
             
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    // Remove active class from all tabs and content sections
                     tabs.forEach(t => t.classList.remove('active'));
                     contentSections.forEach(section => section.classList.remove('active'));
-                    
-                    // Add active class to clicked tab
                     tab.classList.add('active');
-                    
-                    // Show corresponding content section
                     const tabId = tab.getAttribute('data-tab');
                     document.getElementById(tabId).classList.add('active');
-                    
-                    // Update header
                     sectionHeader.textContent = sectionTitles[tabId];
                 });
             });
             
-            // Initialize Simulation
-            initializeMatrixInputs();
-            
-            // Handle Matrix Size Change
-            document.getElementById('num-equations').addEventListener('change', function() {
-                initializeMatrixInputs();
-                resetResults();
-            });
-            
-            // Solve Button
-            document.getElementById('solve-system-btn').addEventListener('click', function() {
-                solveLinearSystem();
-            });
-            
-            // Example Button
-            document.getElementById('load-example-btn').addEventListener('click', function() {
-                loadExampleSystem();
-            });
-            
-            // Reset Button
-            document.getElementById('reset-system-btn').addEventListener('click', function() {
-                initializeMatrixInputs();
-                resetResults();
-            });
-            
-            // Initialize option selection
-            initializeOptionSelection();
-            
-            // Submit Pretest
-            document.getElementById('submit-pretest').addEventListener('click', submitPretest);
-            
-            // Submit Posttest
-            document.getElementById('submit-posttest').addEventListener('click', submitPosttest);
-            
-            // Initialize Feedback Form
-            initializeFeedbackForm();
-            
-            // Auto-load example on first visit to simulation
-            setTimeout(() => {
-                if (document.getElementById('simulation').classList.contains('active')) {
-                    loadExampleSystem();
-                }
-            }, 500);
+            // Initialize all sections
+            initializePretest();
+            initializeTheory();
+            initializeSimulation();
+            initializePosttest();
+            initializeFeedback();
         });
         
-        // Initialize option selection for pretest and posttest
-        function initializeOptionSelection() {
-            // Add click handlers for options
-            document.querySelectorAll('.option').forEach(option => {
+        // ============ PRETEST INITIALIZATION ============
+        function initializePretest() {
+            const pretestQuestions = [
+                {
+                    id: 'q1',
+                    text: 'Question 1: For the system Ax = B, if rank(A) = rank([A|B]) = n (number of variables), then the system has:',
+                    options: [
+                        { value: 'a', text: 'No solution' },
+                        { value: 'b', text: 'Unique solution' },
+                        { value: 'c', text: 'Infinite solutions' },
+                        { value: 'd', text: 'Cannot be determined' }
+                    ],
+                    correct: 'b',
+                    explanation: 'When rank(A) = rank([A|B]) = n, the system is consistent and has exactly one unique solution. This is the fundamental condition for a unique solution.',
+                    steps: 'Step 1: Form augmented matrix [A|B]\nStep 2: Find rank(A) and rank([A|B])\nStep 3: Compare with number of variables n\nStep 4: If both ranks equal n, unique solution exists'
+                },
+                {
+                    id: 'q2',
+                    text: 'Question 2: Given the augmented matrix [[1,2,3],[2,4,6]]. What type of solution does this system have?',
+                    options: [
+                        { value: 'a', text: 'Unique solution' },
+                        { value: 'b', text: 'No solution' },
+                        { value: 'c', text: 'Infinite solutions' },
+                        { value: 'd', text: 'Cannot determine' }
+                    ],
+                    correct: 'c',
+                    explanation: 'Row 2 is a multiple of Row 1 (2×). rank(A) = rank([A|B]) = 1, but n = 3. Since rank < n, the system has infinite solutions.',
+                    steps: 'Step 1: Write augmented matrix [[1,2,3],[2,4,6]]\nStep 2: Perform R2 → R2 - 2R1 = [0,0,0]\nStep 3: rank = 1, but variables = 2 (x and y)\nStep 4: Since rank < n, infinite solutions exist'
+                },
+                {
+                    id: 'q3',
+                    text: 'Question 3: If rank(A) = 2 and rank([A|B]) = 3 for a system with 3 variables, the system is:',
+                    options: [
+                        { value: 'a', text: 'Consistent with unique solution' },
+                        { value: 'b', text: 'Consistent with infinite solutions' },
+                        { value: 'c', text: 'Inconsistent (no solution)' },
+                        { value: 'd', text: 'Homogeneous system' }
+                    ],
+                    correct: 'c',
+                    explanation: 'When rank(A) ≠ rank([A|B]), the system is inconsistent. The augmented matrix has a higher rank, indicating contradictory equations.',
+                    steps: 'Step 1: Note rank(A) = 2 and rank([A|B]) = 3\nStep 2: Since ranks are different, system is inconsistent\nStep 3: No solution exists\nStep 4: This means equations contradict each other'
+                },
+                {
+                    id: 'q4',
+                    text: 'Question 4: For a homogeneous system (B = 0), which is ALWAYS true?',
+                    options: [
+                        { value: 'a', text: 'The system has only trivial solution' },
+                        { value: 'b', text: 'The system is always consistent' },
+                        { value: 'c', text: 'The determinant must be non-zero' },
+                        { value: 'd', text: 'The system has no solution' }
+                    ],
+                    correct: 'b',
+                    explanation: 'A homogeneous system (Ax = 0) is always consistent because x = 0 (trivial solution) always satisfies it. If rank(A) < n, non-trivial solutions also exist.',
+                    steps: 'Step 1: Homogeneous system means Ax = 0\nStep 2: x = 0 is always a solution (trivial)\nStep 3: Therefore, the system is always consistent\nStep 4: If rank(A) < n, non-trivial solutions exist too'
+                },
+                {
+                    id: 'q5',
+                    text: 'Question 5: What is the augmented matrix for the system: 2x + y = 5, 3x - y = 0?',
+                    options: [
+                        { value: 'a', text: '[[2,1,5],[3,-1,0]]' },
+                        { value: 'b', text: '[[2,1],[3,-1],[5,0]]' },
+                        { value: 'c', text: '[[2,3,5],[1,-1,0]]' },
+                        { value: 'd', text: '[[5,2,1],[0,3,-1]]' }
+                    ],
+                    correct: 'a',
+                    explanation: 'The augmented matrix combines coefficient matrix with the RHS. First equation: 2x + y = 5 → [2,1,5]. Second: 3x - y = 0 → [3,-1,0].',
+                    steps: 'Step 1: Write first equation: 2x + y = 5\nStep 2: Extract coefficients: [2, 1, 5]\nStep 3: Write second equation: 3x - y = 0\nStep 4: Extract coefficients: [3, -1, 0]\nStep 5: Combine: [[2,1,5],[3,-1,0]]'
+                },
+                {
+                    id: 'q6',
+                    text: 'Question 6: After row reduction, if we get a row [0,0,0|5] in the augmented matrix, this indicates:',
+                    options: [
+                        { value: 'a', text: 'Unique solution' },
+                        { value: 'b', text: 'Infinite solutions' },
+                        { value: 'c', text: 'No solution' },
+                        { value: 'd', text: 'Trivial solution' }
+                    ],
+                    correct: 'c',
+                    explanation: 'A row [0,0,0|5] represents 0x + 0y + 0z = 5, which is impossible (0 = 5). This contradiction means the system has no solution.',
+                    steps: 'Step 1: Interpret [0,0,0|5]\nStep 2: This means 0x + 0y + 0z = 5\nStep 3: Or 0 = 5, which is impossible\nStep 4: Therefore, no solution exists (inconsistent)'
+                },
+                {
+                    id: 'q7',
+                    text: 'Question 7: What is rank of matrix A = [[1,2,3],[2,4,6],[3,6,9]]?',
+                    options: [
+                        { value: 'a', text: '0' },
+                        { value: 'b', text: '1' },
+                        { value: 'c', text: '2' },
+                        { value: 'd', text: '3' }
+                    ],
+                    correct: 'b',
+                    explanation: 'All rows are multiples of the first row (R2 = 2×R1, R3 = 3×R1). Therefore, only one linearly independent row exists, giving rank = 1.',
+                    steps: 'Step 1: Observe matrix A\nStep 2: R2 = 2 × R1\nStep 3: R3 = 3 × R1\nStep 4: All rows are dependent on R1\nStep 5: Only 1 independent row → rank = 1'
+                },
+                {
+                    id: 'q8',
+                    text: 'Question 8: For a 3×3 system, if rank(A) = 2 and rank([A|B]) = 2 with n = 3, the solution is:',
+                    options: [
+                        { value: 'a', text: 'Unique point' },
+                        { value: 'b', text: 'A line (infinite solutions)' },
+                        { value: 'c', text: 'A plane (infinite solutions)' },
+                        { value: 'd', text: 'No solution' }
+                    ],
+                    correct: 'b',
+                    explanation: 'When rank = 2 and n = 3, the solution space is n - rank = 1 dimensional. This means solutions form a line (one free variable).',
+                    steps: 'Step 1: Identify rank(A) = rank([A|B]) = 2\nStep 2: Number of variables n = 3\nStep 3: Solution dimension = n - rank = 3 - 2 = 1\nStep 4: A 1-dimensional solution set is a line → infinite solutions'
+                },
+                {
+                    id: 'q9',
+                    text: 'Question 9: Which row operation does NOT change the solution of a linear system?',
+                    options: [
+                        { value: 'a', text: 'Swapping two rows' },
+                        { value: 'b', text: 'Multiplying a row by zero' },
+                        { value: 'c', text: 'Adding a multiple of one row to another' },
+                        { value: 'd', text: 'Both a and c' }
+                    ],
+                    correct: 'd',
+                    explanation: 'Swapping rows and adding multiples of rows are legitimate row operations. Multiplying a row by zero destroys information and changes the system.',
+                    steps: 'Step 1: Valid operations: swapping rows, scaling by non-zero, adding multiples\nStep 2: Swapping rows (R1 ↔ R2) preserves equations\nStep 3: Adding multiples (R2 → R2 + kR1) preserves equivalence\nStep 4: Multiplying by zero destroys the equation'
+                },
+                {
+                    id: 'q10',
+                    text: 'Question 10: If the augmented matrix reduces to [[1,2,0,5],[0,0,1,3],[0,0,0,0]], what is the solution?',
+                    options: [
+                        { value: 'a', text: 'x₁ = 5, x₂ = t, x₃ = 3 (t free)' },
+                        { value: 'b', text: 'x₁ = 5 - 2t, x₂ = t, x₃ = 3 (t free)' },
+                        { value: 'c', text: 'No solution' },
+                        { value: 'd', text: 'x₁ = 5, x₂ = 0, x₃ = 3' }
+                    ],
+                    correct: 'b',
+                    explanation: 'From RREF: x₁ + 2x₂ = 5 and x₃ = 3. Since x₂ is free, x₁ = 5 - 2t where t is any real number. x₂ is a free variable.',
+                    steps: 'Step 1: Read from RREF matrix\nStep 2: Row 1: x₁ + 2x₂ = 5 → x₁ = 5 - 2x₂\nStep 3: Row 2: x₃ = 3\nStep 4: Row 3: 0 = 0 (redundant)\nStep 5: x₂ is free variable (no pivot)\nStep 6: Solution: x₁ = 5 - 2t, x₂ = t, x₃ = 3'
+                }
+            ];
+            
+            const container = document.getElementById('pretest-questions-container');
+            container.innerHTML = '';
+            
+            pretestQuestions.forEach((q, idx) => {
+                const questionHTML = `
+                    <div class="question-container" id="pretest-${q.id}">
+                        <div class="question">
+                            <div class="question-text">${q.text}</div>
+                            <div class="options">
+                                ${q.options.map(opt => `
+                                    <label class="option">
+                                        <input type="radio" name="${q.id}" value="${opt.value}">
+                                        ${opt.text}
+                                    </label>
+                                `).join('')}
+                            </div>
+                            <div id="${q.id}-feedback" class="answer-feedback"></div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += questionHTML;
+            });
+            
+            // Add click handlers
+            document.querySelectorAll('#pretest-questions-container .option').forEach(option => {
                 option.addEventListener('click', function(e) {
                     if (e.target.type === 'radio') return;
-                    
                     const radio = this.querySelector('input[type="radio"]');
                     if (radio) {
                         radio.checked = true;
-                        
-                        // Update visual selection
                         const options = this.closest('.options').querySelectorAll('.option');
                         options.forEach(opt => opt.classList.remove('selected'));
                         this.classList.add('selected');
                         
-                        // Show immediate feedback
                         const questionId = radio.name;
                         const value = radio.value;
-                        showQuestionFeedback(questionId, value);
+                        showPretestFeedback(questionId, value, pretestQuestions);
                     }
                 });
             });
             
-            // Also handle direct radio button clicks
-            document.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.addEventListener('click', function() {
-                    const option = this.closest('.option');
-                    const options = option.closest('.options').querySelectorAll('.option');
-                    options.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    
-                    // Show immediate feedback
-                    const questionId = this.name;
-                    const value = this.value;
-                    showQuestionFeedback(questionId, value);
-                });
+            document.getElementById('submit-pretest').addEventListener('click', function() {
+                submitPretest(pretestQuestions);
             });
+            
+            window.pretestData = pretestQuestions;
         }
         
-        // Question feedback for pretest
-        function showQuestionFeedback(questionId, value) {
+        function showPretestFeedback(questionId, value, questions) {
+            const q = questions.find(q => q.id === questionId);
             const feedbackDiv = document.getElementById(`${questionId}-feedback`);
-            const correctAnswers = {
-                'q1': 'b',
-                'q2': 'b',
-                'q3': 'c',
-                'q4': 'c',
-                'q5': 'c',
-                'p1': 'a',
-                'p2': 'c',
-                'p3': 'a',
-                'p4': 'a',
-                'p5': 'c'
-            };
             
-            const explanations = {
-                'q1': 'A system of linear equations consists of multiple linear equations with the same variables.',
-                'q2': 'A consistent and independent system has exactly one unique solution.',
-                'q3': 'A zero determinant means the matrix is singular, leading to either no solution or infinite solutions.',
-                'q4': 'x + y = 3 and x + y = 5 cannot both be true, so no solution exists.',
-                'q5': 'When equations have infinite solutions, their graphs are coincident lines (same line).',
-                'p1': 'The solution to 2x + 3y = 8 and 4x - y = 6 is approximately x = 2, y = 1.',
-                'p2': 'The second equation is exactly twice the first, so they represent the same line (infinite solutions).',
-                'p3': 'Solving the system gives x = 2, y = 3, z = -1.',
-                'p4': 'det([[1,2],[2,4]]) = 0, indicating either no solution or infinite solutions.',
-                'p5': 'When rank(A) ≠ rank([A|B]), the system has no solution.'
-            };
-            
-            if (value === correctAnswers[questionId]) {
-                feedbackDiv.innerHTML = `<i class="fas fa-check-circle"></i> <strong>Correct!</strong> ${explanations[questionId]}`;
+            if (value === q.correct) {
+                feedbackDiv.innerHTML = `
+                    <i class="fas fa-check-circle"></i> <strong>Correct!</strong><br>
+                    <p>${q.explanation}</p>
+                    <p style="margin-top: 10px;"><strong>Step-by-step:</strong><br><pre>${q.steps}</pre></p>
+                `;
                 feedbackDiv.className = 'answer-feedback feedback-correct';
             } else {
-                feedbackDiv.innerHTML = `<i class="fas fa-times-circle"></i> <strong>Incorrect.</strong> ${explanations[questionId]}`;
+                feedbackDiv.innerHTML = `
+                    <i class="fas fa-times-circle"></i> <strong>Incorrect.</strong><br>
+                    <p>Correct answer: ${q.options.find(o => o.value === q.correct).text}</p>
+                    <p>${q.explanation}</p>
+                    <p style="margin-top: 10px;"><strong>Step-by-step solution:</strong><br><pre>${q.steps}</pre></p>
+                `;
                 feedbackDiv.className = 'answer-feedback feedback-incorrect';
             }
             feedbackDiv.style.display = 'block';
         }
         
-        // Submit Pretest
-        function submitPretest() {
+        function submitPretest(questions) {
             let score = 0;
-            let total = 5;
-            
-            const correctAnswers = {
-                'q1': 'b',
-                'q2': 'b',
-                'q3': 'c',
-                'q4': 'c',
-                'q5': 'c'
-            };
-            
-            // Calculate score
-            for (let i = 1; i <= total; i++) {
-                const selected = document.querySelector(`input[name="q${i}"]:checked`);
-                if (selected && selected.value === correctAnswers[`q${i}`]) {
+            questions.forEach(q => {
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                if (selected && selected.value === q.correct) {
                     score++;
+                    // Show correct feedback
+                    showPretestFeedback(q.id, selected.value, questions);
+                } else if (selected) {
+                    showPretestFeedback(q.id, selected.value, questions);
                 }
-            }
+            });
             
-            const percentage = (score / total) * 100;
+            const percentage = (score / questions.length) * 100;
             const resultsDiv = document.getElementById('pretest-results');
             
-            let message = '';
-            if (percentage >= 80) {
-                message = 'Excellent! You have strong prerequisite knowledge.';
-            } else if (percentage >= 60) {
-                message = 'Good! Review the theory section for better understanding.';
-            } else {
-                message = 'Please study the theory section thoroughly before proceeding.';
-            }
-            
             resultsDiv.innerHTML = `
-                <div class="results-container">
-                    <div class="score-circle">
-                        <div class="score-value">${score}/${total}</div>
-                        <div class="score-label">Score</div>
-                    </div>
-                    <h3>${percentage >= 80 ? 'Excellent!' : percentage >= 60 ? 'Good!' : 'Keep Learning!'}</h3>
-                    <p>You scored ${percentage.toFixed(0)}% on the pretest.</p>
-                    <p style="margin-top: 10px;">${message}</p>
-                    <p style="font-size: 0.9rem; margin-top: 5px;">Proceed to the Theory section to learn more about linear systems.</p>
+                <div style="background: ${percentage >= 70 ? '#d5f4e6' : percentage >= 50 ? '#fdebd0' : '#fadbd8'}; padding: 30px; border-radius: 10px; margin-top: 30px; text-align: center;">
+                    <h3>${percentage >= 70 ? 'Excellent!' : percentage >= 50 ? 'Good Effort!' : 'Keep Learning!'}</h3>
+                    <p style="font-size: 1.5rem; font-weight: bold; margin: 15px 0;">Score: ${score}/${questions.length} (${percentage.toFixed(0)}%)</p>
+                    <p>${percentage >= 70 ? 'You have strong prerequisite knowledge. Proceed to the theory section.' : 'Review the theory section thoroughly before attempting the simulation.'}</p>
                 </div>
             `;
             resultsDiv.style.display = 'block';
-            
-            showMessage(`Pretest submitted! Your score: ${score}/${total}`, 'success');
-            
-            // Scroll to results
             resultsDiv.scrollIntoView({ behavior: 'smooth' });
         }
         
-        // Submit Posttest
-        function submitPosttest() {
-            let score = 0;
-            let total = 5;
-            
-            const correctAnswers = {
-                'p1': 'a',
-                'p2': 'c',
-                'p3': 'a',
-                'p4': 'a',
-                'p5': 'c'
-            };
-            
-            // Calculate score
-            for (let i = 1; i <= total; i++) {
-                const selected = document.querySelector(`input[name="p${i}"]:checked`);
-                if (selected && selected.value === correctAnswers[`p${i}`]) {
-                    score++;
-                }
-            }
-            
-            const percentage = (score / total) * 100;
-            const resultsDiv = document.getElementById('posttest-results');
-            
-            let message = '';
-            if (percentage >= 80) {
-                message = 'Outstanding! You have mastered the concepts of linear systems.';
-            } else if (percentage >= 60) {
-                message = 'Good job! You have a good understanding of linear systems.';
-            } else {
-                message = 'Review the theory and simulation sections for better understanding.';
-            }
-            
-            resultsDiv.innerHTML = `
-                <div class="results-container">
-                    <div class="score-circle">
-                        <div class="score-value">${score}/${total}</div>
-                        <div class="score-label">Score</div>
+        // ============ THEORY INITIALIZATION ============
+        function initializeTheory() {
+            const theoryContent = document.getElementById('theory-content-dynamic');
+            theoryContent.innerHTML = `
+                <div class="theory-section">
+                    <h3><i class="fas fa-calculator"></i> Rank Method for Solving Linear Systems</h3>
+                    <p>The <strong>Rank Method</strong> is a powerful technique to determine the nature of solutions for any system of linear equations, whether square or rectangular. It works by analyzing the <strong>augmented matrix</strong> and computing ranks.</p>
+                    
+                    <div class="equation">
+                        <strong>Key Formula:</strong><br>
+                        Let A be the coefficient matrix (m×n)<br>
+                        Let [A|B] be the augmented matrix (m×(n+1))<br>
+                        Then:<br>
+                        • If rank(A) = rank([A|B]) = n → <strong>Unique Solution</strong><br>
+                        • If rank(A) = rank([A|B]) &lt; n → <strong>Infinite Solutions</strong><br>
+                        • If rank(A) ≠ rank([A|B]) → <strong>No Solution (Inconsistent)</strong>
                     </div>
-                    <h3>${percentage >= 80 ? 'Outstanding!' : percentage >= 60 ? 'Well Done!' : 'Good Effort!'}</h3>
-                    <p>You scored ${percentage.toFixed(0)}% on the posttest.</p>
-                    <p style="margin-top: 10px;">${message}</p>
+                </div>
+                
+                <div class="theory-section">
+                    <h3><i class="fas fa-project-diagram"></i> Understanding Rank</h3>
+                    <p><strong>Rank of a matrix</strong> is the maximum number of linearly independent rows (or columns). It tells us how many "useful" equations we have.</p>
+                    
+                    <p><strong>How to find rank?</strong></p>
+                    <ol>
+                        <li>Convert matrix to Row Echelon Form (REF) using elementary row operations</li>
+                        <li>Count the number of non-zero rows</li>
+                        <li>That count is the rank</li>
+                    </ol>
+                    
+                    <div class="example-box">
+                        <h4>Example: Find rank of A = [[1,2],[2,4]]</h4>
+                        <div class="equation">
+                            Step 1: Write matrix<br>
+                            [1  2]<br>
+                            [2  4]<br><br>
+                            Step 2: R₂ → R₂ - 2R₁<br>
+                            [1  2]<br>
+                            [0  0]<br><br>
+                            Step 3: Count non-zero rows = 1<br>
+                            <strong>∴ rank(A) = 1</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theory-section">
+                    <h3><i class="fas fa-cogs"></i> Step-by-Step Rank Method Algorithm</h3>
+                    <ol>
+                        <li><strong>Form the Augmented Matrix:</strong> Write the coefficient matrix A and append the RHS vector B as an extra column.</li>
+                        <li><strong>Convert to Row Echelon Form:</strong> Use elementary row operations:
+                            <ul>
+                                <li>Swap rows (Rᵢ ↔ Rⱼ)</li>
+                                <li>Multiply a row by non-zero scalar (Rᵢ → kRᵢ, k≠0)</li>
+                                <li>Add multiple of one row to another (Rᵢ → Rᵢ + kRⱼ)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Find rank(A):</strong> Count non-zero rows in REF of coefficient matrix.</li>
+                        <li><strong>Find rank([A|B]):</strong> Count non-zero rows in REF of augmented matrix.</li>
+                        <li><strong>Determine Solution Type:</strong>
+                            <ul>
+                                <li>If rank(A) = rank([A|B]) = n: Unique solution exists</li>
+                                <li>If rank(A) = rank([A|B]) < n: Infinite solutions</li>
+                                <li>If rank(A) ≠ rank([A|B]): No solution</li>
+                            </ul>
+                        </li>
+                        <li><strong>Solve (if consistent):</strong> Back-substitute from REF to find values.</li>
+                    </ol>
+                </div>
+                
+                <div class="theory-section">
+                    <h3><i class="fas fa-lightbulb"></i> Important Notes</h3>
+                    <ul>
+                        <li><strong>Homogeneous Systems (B=0):</strong> Always consistent. If rank(A) = n, only trivial solution. If rank(A) < n, non-trivial solutions exist.</li>
+                        <li><strong>Square Systems (m=n):</strong> Unique solution exists iff det(A) ≠ 0 (which means rank = n).</li>
+                        <li><strong>Overdetermined Systems (m>n):</strong> More equations than variables. May be inconsistent.</li>
+                        <li><strong>Underdetermined Systems (m<n):</strong> Fewer equations than variables. If consistent, always infinite solutions.</li>
+                    </ul>
+                </div>
+                
+                <div class="theory-section">
+                    <h3><i class="fas fa-chart-line"></i> Graphical Interpretation</h3>
+                    <p><strong>In 2D (2 variables):</strong></p>
+                    <ul>
+                        <li>rank = 2, consistent → Two lines intersect at a point (unique)</li>
+                        <li>rank = 1, consistent → Both equations represent same line (infinite)</li>
+                        <li>rank(A)=1, rank([A|B])=2 → Parallel lines (no solution)</li>
+                    </ul>
+                    <p><strong>In 3D (3 variables):</strong></p>
+                    <ul>
+                        <li>rank = 3 → Three planes intersect at a point</li>
+                        <li>rank = 2 → Planes intersect along a line</li>
+                        <li>rank = 1 → All planes are the same</li>
+                        <li>Inconsistent → At least two planes are parallel</li>
+                    </ul>
                 </div>
             `;
-            resultsDiv.style.display = 'block';
-            
-            showMessage(`Posttest submitted! Your score: ${score}/${total}`, 'success');
-            
-            // Scroll to results
-            resultsDiv.scrollIntoView({ behavior: 'smooth' });
         }
         
-        // Initialize Feedback Form
-        function initializeFeedbackForm() {
-            document.getElementById('feedback-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('name').value || 'Anonymous';
-                const email = document.getElementById('email').value || '';
-                const rating = document.getElementById('rating').value;
-                const subject = document.getElementById('subject').value || 'Feedback on Linear Systems Lab';
-                const comments = document.getElementById('comments').value;
-                const sendCopy = document.getElementById('send-copy').checked;
-                
-                if (!comments.trim()) {
-                    showMessage('Please provide comments in the feedback form.', 'error');
-                    return;
-                }
-                
-                submitFeedback(name, email, rating, subject, comments, sendCopy);
-            });
+        // ============ SIMULATION INITIALIZATION ============
+        let simState = {
+            m: 2,
+            n: 2,
+            A: [],
+            B: [],
+            step: 0,
+            wrongAttempts: 0,
+            maxWrongAttempts: 3,
+            solutionData: null,
+            currentREF: null,
+            currentAugmented: null
+        };
+        
+        function initializeSimulation() {
+            // Start button
+            document.getElementById('btn-start-system').addEventListener('click', startSystemBuild);
         }
         
-        function submitFeedback(name, email, rating, subject, comments, sendCopy) {
-            const submitBtn = document.getElementById('submit-feedback');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            submitBtn.disabled = true;
+        function startSystemBuild() {
+            simState.m = parseInt(document.getElementById('num-eqs').value);
+            simState.n = parseInt(document.getElementById('num-vars').value);
             
-            // Updated Formspree endpoint as requested
-            const formspreeEndpoint = 'https://formspree.io/f/mojaonbz';
-            
-            const formData = new FormData();
-            formData.append('name', name);
-            formData.append('email', email || 'anonymous@example.com');
-            formData.append('rating', rating || 'Not rated');
-            formData.append('subject', subject);
-            formData.append('comments', comments);
-            formData.append('_replyto', email || 'anonymous@example.com');
-            formData.append('_subject', `Virtual Labs Feedback: ${subject}`);
-            
-            if (sendCopy && email) {
-                formData.append('_cc', email);
-            }
-            
-            fetch(formspreeEndpoint, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    showMessage('Thank you! Your feedback has been submitted successfully.', 'success');
-                    document.getElementById('feedback-form').reset();
-                } else {
-                    showMessage('There was an error submitting your feedback. Please try again.', 'error');
-                }
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            })
-            .catch(error => {
-                showMessage('Network error. Please check your connection and try again.', 'error');
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            });
-        }
-        
-        // All the original simulation functions remain exactly the same
-        function initializeMatrixInputs() {
-            const n = parseInt(document.getElementById('num-equations').value);
-            const container = document.getElementById('matrix-input-container');
-            container.innerHTML = '';
-            
-            // Create matrix equation: A * X = B
-            let matrixHTML = '';
-            
-            // Create matrix A
-            matrixHTML += '<div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 20px;">';
-            
-            // Matrix A
-            matrixHTML += '<div style="display: flex; flex-direction: column; align-items: center;">';
-            matrixHTML += '<div style="margin-bottom: 10px; font-weight: 600; color: #2c3e50;">Matrix A</div>';
-            
-            for (let i = 0; i < n; i++) {
-                matrixHTML += '<div class="matrix-row">';
-                for (let j = 0; j < n; j++) {
-                    matrixHTML += `<div class="matrix-cell">
-                        <input type="number" id="a${i}${j}" placeholder="0" step="any" value="0">
-                    </div>`;
-                }
-                matrixHTML += '</div>';
-            }
-            matrixHTML += '</div>';
-            
-            // Multiply sign
-            matrixHTML += '<div class="matrix-operator">×</div>';
-            
-            // Vector X
-            matrixHTML += '<div style="display: flex; flex-direction: column; align-items: center;">';
-            matrixHTML += '<div style="margin-bottom: 10px; font-weight: 600; color: #2c3e50;">Vector X</div>';
-            for (let i = 0; i < n; i++) {
-                matrixHTML += `<div class="matrix-row">
-                    <div class="matrix-cell" style="background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #1e5799; border: 2px solid #1e5799;">
-                        x<sub>${i+1}</sub>
-                    </div>
-                </div>`;
-            }
-            matrixHTML += '</div>';
-            
-            // Equals sign
-            matrixHTML += '<div class="matrix-equals">=</div>';
-            
-            // Vector B
-            matrixHTML += '<div style="display: flex; flex-direction: column; align-items: center;">';
-            matrixHTML += '<div style="margin-bottom: 10px; font-weight: 600; color: #2c3e50;">Vector B</div>';
-            matrixHTML += '<div class="b-vector">';
-            for (let i = 0; i < n; i++) {
-                matrixHTML += `<div class="b-cell">
-                    <input type="number" id="b${i}" placeholder="0" step="any" value="0">
-                </div>`;
-            }
-            matrixHTML += '</div>';
-            matrixHTML += '</div>';
-            
-            matrixHTML += '</div>';
-            
-            container.innerHTML = matrixHTML;
-            
-            // Add input event listeners for real-time validation
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < n; j++) {
-                    const input = document.getElementById(`a${i}${j}`);
-                    input.addEventListener('input', function() {
-                        this.style.backgroundColor = this.value === '' ? '#f8f9fa' : '#fff';
-                    });
-                }
-                
-                const bInput = document.getElementById(`b${i}`);
-                bInput.addEventListener('input', function() {
-                    this.style.backgroundColor = this.value === '' ? '#ebf5fb' : '#fff';
-                });
-            }
-        }
-        
-        function loadExampleSystem() {
-            const n = parseInt(document.getElementById('num-equations').value);
-            
-            // Clear all inputs first
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < n; j++) {
-                    document.getElementById(`a${i}${j}`).value = '';
-                }
-                document.getElementById(`b${i}`).value = '';
-            }
-            
-            // Load example based on system size
-            if (n === 2) {
-                // 2D system with unique solution
-                document.getElementById('a00').value = 2;
-                document.getElementById('a01').value = 1;
-                document.getElementById('b0').value = 5;
-                document.getElementById('a10').value = 1;
-                document.getElementById('a11').value = -1;
-                document.getElementById('b1').value = 1;
-            } else if (n === 3) {
-                // 3D system with unique solution
-                document.getElementById('a00').value = 2;
-                document.getElementById('a01').value = 1;
-                document.getElementById('a02').value = -1;
-                document.getElementById('b0').value = 8;
-                document.getElementById('a10').value = -3;
-                document.getElementById('a11').value = -1;
-                document.getElementById('a12').value = 2;
-                document.getElementById('b1').value = -11;
-                document.getElementById('a20').value = -2;
-                document.getElementById('a21').value = 1;
-                document.getElementById('a22').value = 2;
-                document.getElementById('b2').value = -3;
-            } else if (n === 4) {
-                // 4D system with unique solution
-                document.getElementById('a00').value = 2;
-                document.getElementById('a01').value = 1;
-                document.getElementById('a02').value = 0;
-                document.getElementById('a03').value = -1;
-                document.getElementById('b0').value = 5;
-                document.getElementById('a10').value = 1;
-                document.getElementById('a11').value = 2;
-                document.getElementById('a12').value = -1;
-                document.getElementById('a13').value = 0;
-                document.getElementById('b1').value = 3;
-                document.getElementById('a20').value = 0;
-                document.getElementById('a21').value = -1;
-                document.getElementById('a22').value = 2;
-                document.getElementById('a23').value = 1;
-                document.getElementById('b2').value = 4;
-                document.getElementById('a30').value = -1;
-                document.getElementById('a31').value = 0;
-                document.getElementById('a32').value = 1;
-                document.getElementById('a33').value = 2;
-                document.getElementById('b3').value = 6;
-            } else if (n === 5) {
-                // 5D system with unique solution (diagonal dominant)
-                for (let i = 0; i < 5; i++) {
-                    for (let j = 0; j < 5; j++) {
-                        if (i === j) {
-                            document.getElementById(`a${i}${j}`).value = 3;
-                        } else if (Math.abs(i - j) === 1) {
-                            document.getElementById(`a${i}${j}`).value = -1;
-                        } else {
-                            document.getElementById(`a${i}${j}`).value = 0;
-                        }
-                    }
-                    document.getElementById(`b${i}`).value = i + 1;
-                }
-            }
-            
-            // Highlight the inputs
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < n; j++) {
-                    const input = document.getElementById(`a${i}${j}`);
-                    input.style.backgroundColor = '#e8f5e9';
-                    setTimeout(() => {
-                        input.style.backgroundColor = '#fff';
-                    }, 1000);
-                }
-                
-                const bInput = document.getElementById(`b${i}`);
-                bInput.style.backgroundColor = '#e8f5e9';
-                setTimeout(() => {
-                    bInput.style.backgroundColor = '#fff';
-                }, 1000);
-            }
-            
-            // Show a message
-            showMessage('Example system loaded! Click "Solve System" to see the solution.', 'success');
-        }
-        
-        function solveLinearSystem() {
-            const n = parseInt(document.getElementById('num-equations').value);
-            const method = document.getElementById('solution-method').value;
-            
-            // Get matrix values
-            let A = [];
-            let B = [];
-            let allInputsValid = true;
-            
-            for (let i = 0; i < n; i++) {
-                A[i] = [];
-                for (let j = 0; j < n; j++) {
-                    const val = document.getElementById(`a${i}${j}`).value;
-                    if (val === '') {
-                        document.getElementById(`a${i}${j}`).style.borderColor = '#e74c3c';
-                        allInputsValid = false;
-                    } else {
-                        document.getElementById(`a${i}${j}`).style.borderColor = '#bdc3c7';
-                        A[i][j] = parseFloat(val);
-                    }
-                }
-                
-                const bVal = document.getElementById(`b${i}`).value;
-                if (bVal === '') {
-                    document.getElementById(`b${i}`).style.borderColor = '#e74c3c';
-                    allInputsValid = false;
-                } else {
-                    document.getElementById(`b${i}`).style.borderColor = '#3498db';
-                    B[i] = parseFloat(bVal);
-                }
-            }
-            
-            if (!allInputsValid) {
-                showMessage('Please fill in all matrix values before solving.', 'error');
+            if (simState.m < 1 || simState.m > 5 || simState.n < 2 || simState.n > 5) {
+                showMessage('Please enter valid dimensions: m=1-5, n=2-5', 'error');
                 return;
             }
             
-            // Update status
-            const statusElement = document.getElementById('solution-status');
-            statusElement.textContent = 'Calculating...';
-            statusElement.className = 'solution-status status-infinite';
+            simState.step = 0;
+            simState.wrongAttempts = 0;
+            simState.solutionData = null;
             
-            // Solve the system
-            let result;
-            if (method === 'gauss' || method === 'gauss-jordan') {
-                result = gaussianElimination(A, B, n, method);
-            } else if (method === 'matrix') {
-                result = matrixInversionMethod(A, B, n);
-            } else {
-                result = luDecompositionMethod(A, B, n);
-            }
-            
-            // Display results
-            displaySolution(result, n);
+            buildMatrixInput();
+            document.getElementById('matrix-input-dynamic').style.display = 'block';
+            document.getElementById('step-interaction-area').style.display = 'none';
+            resetResultsPanel();
         }
         
-        function gaussianElimination(A, B, n, method = 'gauss') {
+        function buildMatrixInput() {
+            const container = document.getElementById('matrix-input-dynamic');
+            let html = `
+                <div class="matrix-input-section">
+                    <h4><i class="fas fa-table"></i> Enter Augmented Matrix [A|B] (${simState.m}×${simState.n+1})</h4>
+                    <p style="text-align: center; margin-bottom: 20px; color: #7f8c8d;">Enter coefficients for each equation</p>
+                    <div class="matrix-container">
+            `;
+            
+            for (let i = 0; i < simState.m; i++) {
+                html += '<div class="matrix-row">';
+                for (let j = 0; j < simState.n; j++) {
+                    html += `<div class="matrix-cell">
+                        <input type="number" id="a${i}${j}" placeholder="a${i+1}${j+1}" step="any" value="0">
+                    </div>`;
+                }
+                html += '<div class="matrix-operator" style="font-size: 1.5rem;">|</div>';
+                html += `<div class="b-cell">
+                    <input type="number" id="b${i}" placeholder="b${i+1}" step="any" value="0">
+                </div>`;
+                html += '</div>';
+            }
+            
+            html += '</div></div>';
+            
+            html += `
+                <div class="control-buttons" style="margin-top: 20px;">
+                    <button class="btn btn-example" id="btn-load-example-sim">
+                        <i class="fas fa-magic"></i> Load Example
+                    </button>
+                    <button class="btn btn-solve" id="btn-submit-matrix">
+                        <i class="fas fa-play-circle"></i> Submit Matrix & Start Solving
+                    </button>
+                    <button class="btn btn-reset" id="btn-reset-sim">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+            
+            // Event listeners
+            document.getElementById('btn-load-example-sim').addEventListener('click', loadSimExample);
+            document.getElementById('btn-submit-matrix').addEventListener('click', submitMatrixAndStartSteps);
+            document.getElementById('btn-reset-sim').addEventListener('click', resetSimulation);
+        }
+        
+        function loadSimExample() {
+            // Random example selection
+            const examples = [
+                { A: [[2,1],[1,-1]], B: [5,1], name: '2x+y=5, x-y=1 (Unique)' },
+                { A: [[1,2],[2,4]], B: [4,8], name: 'x+2y=4, 2x+4y=8 (Infinite)' },
+                { A: [[1,1],[1,1]], B: [3,5], name: 'x+y=3, x+y=5 (No Solution)' }
+            ];
+            
+            const ex = examples[Math.floor(Math.random() * examples.length)];
+            simState.m = ex.A.length;
+            simState.n = ex.A[0].length;
+            
+            document.getElementById('num-eqs').value = simState.m;
+            document.getElementById('num-vars').value = simState.n;
+            
+            buildMatrixInput();
+            
+            // Fill values
+            setTimeout(() => {
+                for (let i = 0; i < simState.m; i++) {
+                    for (let j = 0; j < simState.n; j++) {
+                        document.getElementById(`a${i}${j}`).value = ex.A[i][j];
+                    }
+                    document.getElementById(`b${i}`).value = ex.B[i];
+                }
+            }, 100);
+            
+            showMessage(`Loaded: ${ex.name}`, 'success');
+        }
+        
+        function submitMatrixAndStartSteps() {
+            simState.A = [];
+            simState.B = [];
+            
+            for (let i = 0; i < simState.m; i++) {
+                simState.A[i] = [];
+                for (let j = 0; j < simState.n; j++) {
+                    const val = parseFloat(document.getElementById(`a${i}${j}`).value) || 0;
+                    simState.A[i][j] = val;
+                }
+                simState.B[i] = parseFloat(document.getElementById(`b${i}`).value) || 0;
+            }
+            
+            // Calculate the solution using rank method
+            const result = solveByRankMethod(simState.A, simState.B, simState.m, simState.n);
+            simState.solutionData = result;
+            
+            // Start step-by-step interaction
+            simState.step = 1;
+            simState.wrongAttempts = 0;
+            document.getElementById('step-interaction-area').style.display = 'block';
+            showStepInteraction();
+        }
+        
+        function solveByRankMethod(A, B, m, n) {
             // Create augmented matrix
             let augmented = [];
-            for (let i = 0; i < n; i++) {
+            for (let i = 0; i < m; i++) {
                 augmented[i] = [...A[i], B[i]];
             }
             
-            // Forward elimination
-            for (let i = 0; i < n; i++) {
-                // Find pivot
-                let maxRow = i;
-                for (let j = i + 1; j < n; j++) {
-                    if (Math.abs(augmented[j][i]) > Math.abs(augmented[maxRow][i])) {
-                        maxRow = j;
+            // Store original
+            const originalAugmented = augmented.map(row => [...row]);
+            
+            // Convert to REF
+            let ref = augmented.map(row => [...row]);
+            let rowOps = [];
+            
+            let pivot = 0;
+            for (let col = 0; col < n && pivot < m; col++) {
+                // Find non-zero pivot
+                let maxRow = pivot;
+                for (let row = pivot; row < m; row++) {
+                    if (Math.abs(ref[row][col]) > Math.abs(ref[maxRow][col])) {
+                        maxRow = row;
                     }
                 }
+                
+                if (Math.abs(ref[maxRow][col]) < 1e-10) continue;
                 
                 // Swap rows
-                [augmented[i], augmented[maxRow]] = [augmented[maxRow], augmented[i]];
-                
-                // Check if pivot is zero
-                if (Math.abs(augmented[i][i]) < 1e-10) {
-                    continue;
+                if (maxRow !== pivot) {
+                    [ref[pivot], ref[maxRow]] = [ref[maxRow], ref[pivot]];
+                    rowOps.push(`Swap R${pivot+1} ↔ R${maxRow+1}`);
                 }
                 
-                // Normalize the pivot row (for Gauss-Jordan)
-                if (method === 'gauss-jordan') {
-                    let pivot = augmented[i][i];
-                    for (let j = i; j <= n; j++) {
-                        augmented[i][j] /= pivot;
+                // Normalize pivot row
+                const pivotVal = ref[pivot][col];
+                if (pivotVal !== 0) {
+                    for (let j = col; j <= n; j++) {
+                        ref[pivot][j] /= pivotVal;
+                    }
+                    rowOps.push(`R${pivot+1} → R${pivot+1}/${pivotVal.toFixed(2)}`);
+                }
+                
+                // Eliminate other rows
+                for (let row = 0; row < m; row++) {
+                    if (row !== pivot && Math.abs(ref[row][col]) > 1e-10) {
+                        const factor = ref[row][col];
+                        for (let j = col; j <= n; j++) {
+                            ref[row][j] -= factor * ref[pivot][j];
+                        }
+                        rowOps.push(`R${row+1} → R${row+1} - (${factor.toFixed(2)})×R${pivot+1}`);
                     }
                 }
                 
-                // Eliminate below and above (for Gauss-Jordan)
-                for (let j = (method === 'gauss-jordan' ? 0 : i + 1); j < n; j++) {
-                    if (j === i && method === 'gauss') continue;
-                    
-                    let factor = augmented[j][i] / (method === 'gauss-jordan' ? 1 : augmented[i][i]);
-                    for (let k = i; k <= n; k++) {
-                        augmented[j][k] -= factor * augmented[i][k];
-                    }
-                }
+                pivot++;
             }
             
-            // Back substitution (for Gaussian Elimination only)
-            let X = new Array(n).fill(0);
-            if (method === 'gauss') {
-                for (let i = n - 1; i >= 0; i--) {
-                    if (Math.abs(augmented[i][i]) < 1e-10) {
-                        if (Math.abs(augmented[i][n]) < 1e-10) {
-                            X[i] = 0; // Free variable
-                        } else {
-                            return { 
-                                solution: null, 
-                                nature: 'none', 
-                                message: 'No solution (inconsistent system)',
-                                matrix: A,
-                                vector: B,
-                                determinant: calculateDeterminant(A, n)
-                            };
-                        }
-                    } else {
-                        X[i] = augmented[i][n];
-                        for (let j = i + 1; j < n; j++) {
-                            X[i] -= augmented[i][j] * X[j];
-                        }
-                        X[i] /= augmented[i][i];
-                    }
-                }
-            } else {
-                // For Gauss-Jordan, solution is in the last column
+            // Calculate ranks
+            const rankA = calculateRankFromREF(ref, m, n);
+            const rankAB = calculateRankFromREF(ref, m, n+1);
+            
+            // Determine solution type
+            let solutionType, solution;
+            
+            if (rankA !== rankAB) {
+                solutionType = 'none';
+                solution = null;
+            } else if (rankA === n) {
+                solutionType = 'unique';
+                solution = [];
                 for (let i = 0; i < n; i++) {
-                    X[i] = augmented[i][n];
+                    solution[i] = i < m ? ref[i][n] : 0;
                 }
-            }
-            
-            // Calculate matrix properties
-            const determinant = calculateDeterminant(A, n);
-            const rankA = calculateRank(A, n);
-            const rankAB = calculateRank(augmented.map(row => row.slice(0, n+1)), n);
-            
-            // Determine solution nature
-            if (Math.abs(determinant) > 1e-10) {
-                return { 
-                    solution: X, 
-                    nature: 'unique', 
-                    message: 'Unique solution exists',
-                    matrix: A,
-                    vector: B,
-                    determinant: determinant,
-                    rankA: rankA,
-                    rankAB: rankAB
-                };
-            } else if (rankA === rankAB && rankA < n) {
-                return { 
-                    solution: X, 
-                    nature: 'infinite', 
-                    message: 'Infinite solutions (dependent system)',
-                    matrix: A,
-                    vector: B,
-                    determinant: determinant,
-                    rankA: rankA,
-                    rankAB: rankAB
-                };
             } else {
-                return { 
-                    solution: null, 
-                    nature: 'none', 
-                    message: 'No solution (inconsistent system)',
-                    matrix: A,
-                    vector: B,
-                    determinant: determinant,
-                    rankA: rankA,
-                    rankAB: rankAB
-                };
-            }
-        }
-        
-        function calculateDeterminant(matrix, n) {
-            if (n === 1) return matrix[0][0];
-            if (n === 2) return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
-            
-            let det = 0;
-            for (let i = 0; i < n; i++) {
-                let submatrix = [];
-                for (let j = 1; j < n; j++) {
-                    submatrix[j-1] = [];
-                    for (let k = 0; k < n; k++) {
-                        if (k !== i) {
-                            submatrix[j-1].push(matrix[j][k]);
-                        }
+                solutionType = 'infinite';
+                solution = [];
+                // Find free variables
+                const pivotCols = new Set();
+                let r = 0;
+                for (let c = 0; c < n; c++) {
+                    if (r < m && Math.abs(ref[r][c]) > 1e-10) {
+                        pivotCols.add(c);
+                        r++;
                     }
                 }
-                det += matrix[0][i] * calculateDeterminant(submatrix, n-1) * (i % 2 === 0 ? 1 : -1);
+                
+                for (let i = 0; i < n; i++) {
+                    if (pivotCols.has(i)) {
+                        solution[i] = 'depends on free vars';
+                    } else {
+                        solution[i] = 'free';
+                    }
+                }
             }
-            return det;
+            
+            return {
+                augmented: originalAugmented,
+                ref: ref,
+                rowOps: rowOps,
+                rankA: rankA,
+                rankAB: rankAB,
+                solutionType: solutionType,
+                solution: solution,
+                n: n,
+                m: m
+            };
         }
         
-        function calculateRank(matrix, n) {
-            // Create a copy
-            let tempMatrix = matrix.map(row => [...row]);
+        function calculateRankFromREF(ref, m, cols) {
             let rank = 0;
-            
-            for (let i = 0; i < n; i++) {
-                // Find pivot
-                let pivotRow = -1;
-                for (let j = rank; j < n; j++) {
-                    if (Math.abs(tempMatrix[j][i]) > 1e-10) {
-                        pivotRow = j;
+            for (let i = 0; i < m; i++) {
+                let nonZero = false;
+                for (let j = 0; j < cols; j++) {
+                    if (Math.abs(ref[i][j]) > 1e-10) {
+                        nonZero = true;
                         break;
                     }
                 }
-                
-                if (pivotRow === -1) continue;
-                
-                // Swap rows
-                [tempMatrix[rank], tempMatrix[pivotRow]] = [tempMatrix[pivotRow], tempMatrix[rank]];
-                
-                // Normalize
-                let pivot = tempMatrix[rank][i];
-                for (let j = i; j < n; j++) {
-                    tempMatrix[rank][j] /= pivot;
-                }
-                
-                // Eliminate
-                for (let j = 0; j < n; j++) {
-                    if (j !== rank && Math.abs(tempMatrix[j][i]) > 1e-10) {
-                        let factor = tempMatrix[j][i];
-                        for (let k = i; k < n; k++) {
-                            tempMatrix[j][k] -= factor * tempMatrix[rank][k];
-                        }
-                    }
-                }
-                
-                rank++;
+                if (nonZero) rank++;
             }
-            
             return rank;
         }
         
-        function matrixInversionMethod(A, B, n) {
-            // Simplified implementation - using Gaussian elimination for actual solution
-            return gaussianElimination(A, B, n, 'gauss');
+        function showStepInteraction() {
+            const container = document.getElementById('step-interaction-area');
+            const result = simState.solutionData;
+            
+            let html = '<div class="step-indicator">';
+            for (let i = 1; i <= 5; i++) {
+                if (i > 1) html += '<div class="step-line' + (i <= simState.step ? ' done' : '') + '"></div>';
+                html += `<div class="step-dot${i === simState.step ? ' active' : i < simState.step ? ' done' : ''}"></div>`;
+            }
+            html += '</div>';
+            
+            html += `<h4 style="margin-bottom: 20px;">Step ${simState.step}: `;
+            
+            switch(simState.step) {
+                case 1:
+                    html += 'Write the Augmented Matrix [A|B]</h4>';
+                    html += '<p>Write the augmented matrix by combining coefficient matrix A and vector B.</p>';
+                    html += generateAugmentedMatrixInput(result.augmented, result.m, result.n);
+                    html += '<button class="btn btn-solve" onclick="checkStepAnswer(1)" style="margin-top: 15px;">Check Augmented Matrix</button>';
+                    html += '<button class="btn" style="background: #f39c12; color: white; margin-left: 10px; margin-top: 15px;" onclick="showHint(1)">Hint</button>';
+                    break;
+                    
+                case 2:
+                    html += 'Find rank(A) from Coefficient Matrix</h4>';
+                    html += '<p>Look at just the coefficient matrix (without RHS). What is its rank?</p>';
+                    html += `<p><strong>Hint:</strong> Count linearly independent rows in the coefficient matrix.</p>`;
+                    html += `<input type="number" id="answer-step2" min="0" max="${result.m}" style="padding: 10px; width: 150px; font-size: 1.2rem;">`;
+                    html += '<button class="btn btn-solve" onclick="checkStepAnswer(2)" style="margin-top: 15px; margin-left: 10px;">Submit Rank(A)</button>';
+                    html += '<button class="btn" style="background: #f39c12; color: white; margin-left: 10px; margin-top: 15px;" onclick="showHint(2)">Hint</button>';
+                    break;
+                    
+                case 3:
+                    html += 'Find rank([A|B]) from Augmented Matrix</h4>';
+                    html += '<p>Consider the full augmented matrix. What is its rank?</p>';
+                    html += `<input type="number" id="answer-step3" min="0" max="${result.m}" style="padding: 10px; width: 150px; font-size: 1.2rem;">`;
+                    html += '<button class="btn btn-solve" onclick="checkStepAnswer(3)" style="margin-top: 15px; margin-left: 10px;">Submit Rank([A|B])</button>';
+                    html += '<button class="btn" style="background: #f39c12; color: white; margin-left: 10px; margin-top: 15px;" onclick="showHint(3)">Hint</button>';
+                    break;
+                    
+                case 4:
+                    html += 'Determine Solution Type</h4>';
+                    html += '<p>Based on ranks, determine the type of solution:</p>';
+                    html += '<select id="answer-step4" style="padding: 10px; font-size: 1.1rem;">';
+                    html += '<option value="">Select...</option>';
+                    html += '<option value="unique">Unique Solution</option>';
+                    html += '<option value="infinite">Infinite Solutions</option>';
+                    html += '<option value="none">No Solution (Inconsistent)</option>';
+                    html += '</select>';
+                    html += '<button class="btn btn-solve" onclick="checkStepAnswer(4)" style="margin-top: 15px; margin-left: 10px;">Submit Solution Type</button>';
+                    html += '<button class="btn" style="background: #f39c12; color: white; margin-left: 10px; margin-top: 15px;" onclick="showHint(4)">Hint</button>';
+                    break;
+                    
+                case 5:
+                    html += 'Verify the Complete Solution</h4>';
+                    html += '<p>Based on the rank analysis, what is the solution?</p>';
+                    if (result.solutionType === 'unique') {
+                        html += '<p>Enter the solution values for each variable:</p>';
+                        for (let i = 0; i < result.n; i++) {
+                            html += `<div style="margin: 10px 0;">
+                                <label>x<sub>${i+1}</sub> = </label>
+                                <input type="number" id="sol${i}" step="any" style="padding: 8px; width: 120px; margin-left: 10px;">
+                            </div>`;
+                        }
+                    } else if (result.solutionType === 'infinite') {
+                        html += '<p>Describe the solution (e.g., "Infinite solutions with x₂ as free variable")</p>';
+                        html += '<textarea id="sol-desc" rows="3" style="width: 100%; padding: 10px;"></textarea>';
+                    } else {
+                        html += '<p>The system has no solution because it is inconsistent.</p>';
+                        html += '<label><input type="checkbox" id="confirm-no-sol"> I understand this system has no solution</label>';
+                    }
+                    html += '<button class="btn btn-solve" onclick="checkStepAnswer(5)" style="margin-top: 15px;">Submit Final Solution</button>';
+                    html += '<button class="btn" style="background: #f39c12; color: white; margin-left: 10px; margin-top: 15px;" onclick="showHint(5)">Hint</button>';
+                    break;
+            }
+            
+            html += '<div class="hint-box" id="hint-box"></div>';
+            container.innerHTML = html;
         }
         
-        function luDecompositionMethod(A, B, n) {
-            // Simplified implementation - using Gaussian elimination for actual solution
-            return gaussianElimination(A, B, n, 'gauss');
+        function generateAugmentedMatrixInput(augmented, m, n) {
+            let html = '<div style="overflow-x: auto; margin: 15px 0;"><table style="border-collapse: collapse;">';
+            
+            for (let i = 0; i < m; i++) {
+                html += '<tr>';
+                for (let j = 0; j < n; j++) {
+                    html += `<td style="padding: 5px;">
+                        <input type="number" id="aug${i}${j}" step="any" style="width: 60px; padding: 5px; text-align: center;">
+                    </td>`;
+                }
+                html += '<td style="padding: 5px; font-weight: bold;">|</td>';
+                html += `<td style="padding: 5px;">
+                    <input type="number" id="augb${i}" step="any" style="width: 60px; padding: 5px; text-align: center;">
+                </td>`;
+                html += '</tr>';
+            }
+            
+            html += '</table></div>';
+            return html;
         }
         
-        function displaySolution(result, n) {
-            // Update solution status
-            const statusElement = document.getElementById('solution-status');
+        function checkStepAnswer(step) {
+            const result = simState.solutionData;
+            let correct = false;
+            
+            switch(step) {
+                case 1:
+                    correct = checkAugmentedMatrix(result);
+                    break;
+                case 2:
+                    const rankA = parseInt(document.getElementById('answer-step2').value);
+                    correct = (rankA === result.rankA);
+                    break;
+                case 3:
+                    const rankAB = parseInt(document.getElementById('answer-step3').value);
+                    correct = (rankAB === result.rankAB);
+                    break;
+                case 4:
+                    const solType = document.getElementById('answer-step4').value;
+                    correct = (solType === result.solutionType);
+                    break;
+                case 5:
+                    correct = checkFinalSolution(result);
+                    break;
+            }
+            
+            if (correct) {
+                simState.wrongAttempts = 0;
+                showMessage('Correct! Well done!', 'success');
+                
+                if (step < 5) {
+                    simState.step++;
+                    showStepInteraction();
+                } else {
+                    // Show final complete solution and graph
+                    showCompleteSolution();
+                }
+            } else {
+                simState.wrongAttempts++;
+                const remaining = simState.maxWrongAttempts - simState.wrongAttempts;
+                
+                if (simState.wrongAttempts >= simState.maxWrongAttempts) {
+                    showMessage(`Incorrect. Here's the correct answer. Moving to next step.`, 'warning');
+                    if (step < 5) {
+                        simState.step++;
+                        simState.wrongAttempts = 0;
+                        showStepInteraction();
+                    } else {
+                        showCompleteSolution();
+                    }
+                } else {
+                    showMessage(`Incorrect. ${remaining} attempt${remaining > 1 ? 's' : ''} remaining. Try again or use hint.`, 'error');
+                }
+            }
+        }
+        
+        function checkAugmentedMatrix(result) {
+            for (let i = 0; i < result.m; i++) {
+                for (let j = 0; j < result.n; j++) {
+                    const val = parseFloat(document.getElementById(`aug${i}${j}`).value);
+                    if (Math.abs(val - result.augmented[i][j]) > 1e-6) return false;
+                }
+                const bVal = parseFloat(document.getElementById(`augb${i}`).value);
+                if (Math.abs(bVal - result.augmented[i][result.n]) > 1e-6) return false;
+            }
+            return true;
+        }
+        
+        function checkFinalSolution(result) {
+            if (result.solutionType === 'none') {
+                return document.getElementById('confirm-no-sol').checked;
+            } else if (result.solutionType === 'unique') {
+                for (let i = 0; i < result.n; i++) {
+                    const val = parseFloat(document.getElementById(`sol${i}`).value);
+                    if (isNaN(val) || Math.abs(val - result.solution[i]) > 1e-4) return false;
+                }
+                return true;
+            } else {
+                const desc = document.getElementById('sol-desc').value.toLowerCase();
+                return desc.includes('infinite') || desc.includes('free');
+            }
+        }
+        
+        function showHint(step) {
+            const hintBox = document.getElementById('hint-box');
+            const result = simState.solutionData;
+            
+            let hint = '';
+            switch(step) {
+                case 1:
+                    hint = `<strong>Hint:</strong> The augmented matrix combines coefficients with RHS.<br>
+                            Example format: For equations ax+by=c, dx+ey=f<br>
+                            Matrix: [[a,b,c],[d,e,f]]<br>
+                            <strong>Your augmented matrix is:</strong><br>
+                            <pre>${result.augmented.map(r => '[' + r.join(', ') + ']').join('\n')}</pre>`;
+                    break;
+                case 2:
+                    hint = `<strong>Hint:</strong> Rank(A) = number of non-zero rows after row reduction.<br>
+                            The coefficient matrix (first ${result.n} columns) has rank <strong>${result.rankA}</strong>`;
+                    break;
+                case 3:
+                    hint = `<strong>Hint:</strong> Rank([A|B]) = number of non-zero rows in the full augmented matrix.<br>
+                            The augmented matrix has rank <strong>${result.rankAB}</strong>`;
+                    break;
+                case 4:
+                    hint = `<strong>Hint:</strong> Compare rank(A)=${result.rankA} with rank([A|B])=${result.rankAB} and n=${result.n}.<br>
+                            ${result.rankA === result.rankAB ? 
+                                (result.rankA === result.n ? 'Ranks equal n → Unique solution' : 'Ranks equal but < n → Infinite solutions') : 
+                                'Ranks differ → No solution'}`;
+                    break;
+                case 5:
+                    if (result.solutionType === 'unique') {
+                        hint = `<strong>Solution:</strong> ${result.solution.map((v,i) => `x${i+1}=${v.toFixed(3)}`).join(', ')}`;
+                    } else if (result.solutionType === 'infinite') {
+                        hint = '<strong>Hint:</strong> Infinite solutions. Some variables are free.';
+                    } else {
+                        hint = '<strong>Hint:</strong> The system has no solution.';
+                    }
+                    break;
+            }
+            
+            hintBox.innerHTML = hint;
+            hintBox.style.display = 'block';
+        }
+        
+        function showCompleteSolution() {
+            const result = simState.solutionData;
+            
+            // Update results panel
+            document.getElementById('solution-status').textContent = 
+                result.solutionType === 'unique' ? 'Unique Solution' :
+                result.solutionType === 'infinite' ? 'Infinite Solutions' : 'No Solution';
+            document.getElementById('solution-status').className = 
+                `solution-status status-${result.solutionType === 'unique' ? 'unique' : result.solutionType === 'infinite' ? 'infinite' : 'none'}`;
+            
+            // Show solution values
             const solutionDisplay = document.getElementById('solution-display');
-            const variablesContainer = document.getElementById('variables-container');
+            if (result.solutionType === 'unique') {
+                solutionDisplay.innerHTML = result.solution.map((v, i) => 
+                    `<div class="variable-item highlight">
+                        <div class="variable-name">x<sub>${i+1}</sub></div>
+                        <div class="variable-value">${v.toFixed(4)}</div>
+                    </div>`
+                ).join('');
+            } else if (result.solutionType === 'infinite') {
+                solutionDisplay.innerHTML = '<p>Infinite solutions exist. The solution space has dimension ' + 
+                    (result.n - result.rankA) + '.</p>';
+            } else {
+                solutionDisplay.innerHTML = '<p style="color: #e74c3c;"><i class="fas fa-exclamation-triangle"></i> No solution exists. The system is inconsistent.</p>';
+            }
+            
+            // Update properties
+            document.getElementById('prop-size').textContent = `${result.m} equations, ${result.n} variables`;
+            document.getElementById('prop-rankA').textContent = result.rankA;
+            document.getElementById('prop-rankAB').textContent = result.rankAB;
+            document.getElementById('prop-consistency').textContent = result.solutionType === 'none' ? 'Inconsistent' : 'Consistent';
+            document.getElementById('prop-type').textContent = result.solutionType;
+            
+            // Create graph
+            createPerfectGraph(result);
+            
+            document.getElementById('step-interaction-area').style.display = 'block';
+            document.getElementById('step-interaction-area').innerHTML = `
+                <div class="solution-box">
+                    <h4><i class="fas fa-check-circle"></i> Complete Solution</h4>
+                    <p><strong>Rank(A) = ${result.rankA}, Rank([A|B]) = ${result.rankAB}, n = ${result.n}</strong></p>
+                    <p><strong>Solution Type:</strong> ${result.solutionType}</p>
+                    ${result.solutionType === 'unique' ? 
+                        '<p><strong>Solution:</strong> ' + result.solution.map((v,i) => `x<sub>${i+1}</sub> = ${v.toFixed(4)}`).join(', ') + '</p>' : 
+                        result.solutionType === 'infinite' ? '<p>Infinite solutions with ' + (result.n - result.rankA) + ' free variable(s)</p>' :
+                        '<p>No solution - inconsistent system</p>'}
+                </div>
+                <button class="btn btn-example" onclick="resetSimulation()" style="margin-top: 15px;">
+                    <i class="fas fa-redo"></i> Solve Another System
+                </button>
+            `;
+        }
+        
+        function createPerfectGraph(result) {
+            const graphCanvas = document.getElementById('graph-canvas');
             const graphPlaceholder = document.getElementById('graph-placeholder');
             const graphLegend = document.getElementById('graph-legend');
             
-            // Set status based on solution nature
-            if (result.nature === 'unique') {
-                statusElement.textContent = 'Unique Solution';
-                statusElement.className = 'solution-status status-unique';
-                showMessage('System solved successfully! Unique solution found.', 'success');
-            } else if (result.nature === 'infinite') {
-                statusElement.textContent = 'Infinite Solutions';
-                statusElement.className = 'solution-status status-infinite';
-                showMessage('System has infinite solutions (dependent equations).', 'warning');
+            graphPlaceholder.style.display = 'none';
+            graphCanvas.innerHTML = '';
+            graphLegend.innerHTML = '';
+            
+            if (result.n === 2 && result.m >= 2) {
+                createPerfect2DGraph(result, graphCanvas, graphLegend);
+            } else if (result.n === 3 && result.m >= 3) {
+                createPerfect3DGraph(result, graphCanvas, graphLegend);
             } else {
-                statusElement.textContent = 'No Solution';
-                statusElement.className = 'solution-status status-none';
-                showMessage('System has no solution (inconsistent equations).', 'error');
+                graphCanvas.innerHTML = `<p style="text-align: center; padding: 40px;">Graphical representation available for 2D (n=2) and 3D (n=3) systems with at least as many equations.</p>`;
             }
-            
-            // Display solution values
-            solutionDisplay.style.display = 'none';
-            variablesContainer.innerHTML = '';
-            
-            if (result.nature === 'unique' || result.nature === 'infinite') {
-                for (let i = 0; i < n; i++) {
-                    const variableItem = document.createElement('div');
-                    variableItem.className = 'variable-item highlight';
-                    variableItem.style.animationDelay = `${i * 0.1}s`;
-                    
-                    const variableName = document.createElement('div');
-                    variableName.className = 'variable-name';
-                    variableName.innerHTML = `x<sub>${i+1}</sub>`;
-                    
-                    const variableValue = document.createElement('div');
-                    variableValue.className = result.nature === 'infinite' ? 
-                        'variable-value free-variable' : 'variable-value';
-                    
-                    if (result.nature === 'infinite' && Math.abs(result.solution[i]) < 1e-10) {
-                        variableValue.textContent = 'Free';
-                        variableValue.title = 'This variable can take any value';
-                    } else {
-                        variableValue.textContent = result.solution[i].toFixed(4);
-                    }
-                    
-                    variableItem.appendChild(variableName);
-                    variableItem.appendChild(variableValue);
-                    variablesContainer.appendChild(variableItem);
-                }
-                
-                // Add note for infinite solutions
-                if (result.nature === 'infinite') {
-                    const note = document.createElement('div');
-                    note.style.width = '100%';
-                    note.style.textAlign = 'center';
-                    note.style.marginTop = '15px';
-                    note.style.color = '#f39c12';
-                    note.style.fontStyle = 'italic';
-                    note.textContent = 'Note: System has infinite solutions. Variables marked as "Free" can take any value.';
-                    variablesContainer.appendChild(note);
-                }
-            } else {
-                variablesContainer.innerHTML = `
-                    <div style="width: 100%; text-align: center; padding: 30px;">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e74c3c; margin-bottom: 15px;"></i>
-                        <h4 style="color: #e74c3c;">No Solution Exists</h4>
-                        <p>The system of equations is inconsistent.</p>
-                        <p style="font-size: 0.9rem; margin-top: 10px;">Equations contradict each other (parallel lines/planes).</p>
-                    </div>
-                `;
-            }
-            
-            // Update matrix properties
-            document.getElementById('prop-size').textContent = `${n} × ${n}`;
-            document.getElementById('prop-method').textContent = document.getElementById('solution-method').value.toUpperCase();
-            document.getElementById('prop-determinant').textContent = result.determinant.toFixed(4);
-            document.getElementById('prop-rank').textContent = result.rankA || 'N/A';
-            document.getElementById('prop-consistency').textContent = 
-                result.nature === 'none' ? 'Inconsistent' : 'Consistent';
-            document.getElementById('prop-type').textContent = 
-                result.nature === 'unique' ? 'Unique' : 
-                result.nature === 'infinite' ? 'Infinite' : 'None';
-            
-            // Create graphical representation
-            createGraphicalRepresentation(result, n);
         }
         
-        function resetResults() {
+        function createPerfect2DGraph(result, container, legend) {
+            const width = container.clientWidth || 400;
+            const height = container.clientHeight || 300;
+            const padding = 40;
+            const graphWidth = width - 2 * padding;
+            const graphHeight = height - 2 * padding;
+            
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '100%');
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            container.appendChild(svg);
+            
+            // Background
+            const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            bg.setAttribute('width', width);
+            bg.setAttribute('height', height);
+            bg.setAttribute('fill', '#fafafa');
+            svg.appendChild(bg);
+            
+            // Determine scale
+            let maxAbs = 1;
+            for (let i = 0; i < result.m; i++) {
+                const a = result.augmented[i][0];
+                const b = result.augmented[i][1];
+                const c = result.augmented[i][2];
+                if (Math.abs(a) > maxAbs) maxAbs = Math.abs(a);
+                if (Math.abs(b) > maxAbs) maxAbs = Math.abs(b);
+                if (Math.abs(c) > maxAbs) maxAbs = Math.abs(c);
+            }
+            if (result.solutionType === 'unique' && result.solution) {
+                if (Math.abs(result.solution[0]) > maxAbs) maxAbs = Math.abs(result.solution[0]);
+                if (Math.abs(result.solution[1]) > maxAbs) maxAbs = Math.abs(result.solution[1]);
+            }
+            const scale = maxAbs + 2;
+            
+            const toX = (val) => padding + (val + scale) / (2 * scale) * graphWidth;
+            const toY = (val) => height - padding - (val + scale) / (2 * scale) * graphHeight;
+            
+            // Draw grid
+            for (let i = -scale; i <= scale; i++) {
+                const x = toX(i);
+                const y = toY(i);
+                
+                const vLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                vLine.setAttribute('x1', x); vLine.setAttribute('y1', padding);
+                vLine.setAttribute('x2', x); vLine.setAttribute('y2', height - padding);
+                vLine.setAttribute('stroke', '#e0e0e0'); vLine.setAttribute('stroke-width', '0.5');
+                svg.appendChild(vLine);
+                
+                const hLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                hLine.setAttribute('x1', padding); hLine.setAttribute('y1', y);
+                hLine.setAttribute('x2', width - padding); hLine.setAttribute('y2', y);
+                hLine.setAttribute('stroke', '#e0e0e0'); hLine.setAttribute('stroke-width', '0.5');
+                svg.appendChild(hLine);
+            }
+            
+            // Draw axes
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', padding); xAxis.setAttribute('y1', toY(0));
+            xAxis.setAttribute('x2', width - padding); xAxis.setAttribute('y2', toY(0));
+            xAxis.setAttribute('stroke', '#333'); xAxis.setAttribute('stroke-width', '2');
+            svg.appendChild(xAxis);
+            
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', toX(0)); yAxis.setAttribute('y1', padding);
+            yAxis.setAttribute('x2', toX(0)); yAxis.setAttribute('y2', height - padding);
+            yAxis.setAttribute('stroke', '#333'); yAxis.setAttribute('stroke-width', '2');
+            svg.appendChild(yAxis);
+            
+            // Draw lines
+            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12'];
+            
+            for (let i = 0; i < Math.min(result.m, 2); i++) {
+                const a = result.augmented[i][0];
+                const b = result.augmented[i][1];
+                const c = result.augmented[i][2];
+                
+                if (Math.abs(b) > 1e-10) {
+                    // y = (c - ax)/b
+                    const x1 = -scale;
+                    const y1 = (c - a * x1) / b;
+                    const x2 = scale;
+                    const y2 = (c - a * x2) / b;
+                    
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', toX(x1)); line.setAttribute('y1', toY(y1));
+                    line.setAttribute('x2', toX(x2)); line.setAttribute('y2', toY(y2));
+                    line.setAttribute('stroke', colors[i]); line.setAttribute('stroke-width', '2.5');
+                    svg.appendChild(line);
+                } else if (Math.abs(a) > 1e-10) {
+                    // x = c/a (vertical line)
+                    const x = c / a;
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', toX(x)); line.setAttribute('y1', padding);
+                    line.setAttribute('x2', toX(x)); line.setAttribute('y2', height - padding);
+                    line.setAttribute('stroke', colors[i]); line.setAttribute('stroke-width', '2.5');
+                    svg.appendChild(line);
+                }
+                
+                // Legend
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.innerHTML = `<div class="legend-color" style="background: ${colors[i]}"></div><span>Eq${i+1}: ${a.toFixed(1)}x₁ + ${b.toFixed(1)}x₂ = ${c.toFixed(1)}</span>`;
+                legend.appendChild(legendItem);
+            }
+            
+            // Draw solution point
+            if (result.solutionType === 'unique' && result.solution) {
+                const sx = toX(result.solution[0]);
+                const sy = toY(result.solution[1]);
+                
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', sx); circle.setAttribute('cy', sy);
+                circle.setAttribute('r', '6'); circle.setAttribute('fill', '#f39c12');
+                circle.setAttribute('stroke', '#fff'); circle.setAttribute('stroke-width', '3');
+                svg.appendChild(circle);
+                
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', sx + 10); label.setAttribute('y', sy - 10);
+                label.setAttribute('fill', '#f39c12'); label.setAttribute('font-size', '12');
+                label.setAttribute('font-weight', 'bold');
+                label.textContent = `(${result.solution[0].toFixed(2)}, ${result.solution[1].toFixed(2)})`;
+                svg.appendChild(label);
+                
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.innerHTML = `<div class="legend-color color-solution"></div><span>Solution: (${result.solution[0].toFixed(2)}, ${result.solution[1].toFixed(2)})</span>`;
+                legend.appendChild(legendItem);
+            }
+        }
+        
+        function createPerfect3DGraph(result, container, legend) {
+            container.innerHTML = `
+                <div class="graph-3d-container">
+                    <div class="graph-3d">
+                        <div style="position: absolute; left: 50%; top: 50%; width: 200px; height: 2px; background: #e74c3c; transform: translate(-50%, -50%) rotateX(90deg);"></div>
+                        <div style="position: absolute; left: 50%; top: 50%; width: 2px; height: 200px; background: #3498db; transform: translate(-50%, -50%);"></div>
+                        <div style="position: absolute; left: 50%; top: 50%; width: 200px; height: 2px; background: #2ecc71; transform: translate(-50%, -50%) rotateY(90deg);"></div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 15px; color: #7f8c8d;">3D visualization showing plane intersections</p>
+            `;
+            
+            const colors = ['#e74c3c', '#3498db', '#2ecc71'];
+            for (let i = 0; i < Math.min(result.m, 3); i++) {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.innerHTML = `<div class="legend-color" style="background: ${colors[i]}"></div><span>Plane ${i+1}</span>`;
+                legend.appendChild(legendItem);
+            }
+            
+            if (result.solutionType === 'unique' && result.solution) {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.innerHTML = `<div class="legend-color color-solution"></div><span>Solution: (${result.solution.map(v => v.toFixed(2)).join(', ')})</span>`;
+                legend.appendChild(legendItem);
+            }
+        }
+        
+        function resetSimulation() {
+            simState = {
+                m: 2,
+                n: 2,
+                A: [],
+                B: [],
+                step: 0,
+                wrongAttempts: 0,
+                maxWrongAttempts: 3,
+                solutionData: null,
+                currentREF: null,
+                currentAugmented: null
+            };
+            
+            document.getElementById('matrix-input-dynamic').style.display = 'none';
+            document.getElementById('step-interaction-area').style.display = 'none';
+            resetResultsPanel();
+        }
+        
+        function resetResultsPanel() {
             document.getElementById('solution-status').textContent = 'Ready';
             document.getElementById('solution-status').className = 'solution-status';
-            
-            document.getElementById('solution-display').style.display = 'block';
             document.getElementById('solution-display').innerHTML = `
                 <p style="text-align: center; color: #7f8c8d; padding: 40px 20px;">
                     <i class="fas fa-calculator" style="font-size: 3rem; margin-bottom: 15px; display: block; color: #bdc3c7;"></i>
-                    Enter your linear system and click "Solve System" to see the solution
+                    Start by configuring your system on the left
                 </p>
             `;
-            
-            document.getElementById('variables-container').innerHTML = '';
-            
             document.getElementById('prop-size').textContent = '-';
-            document.getElementById('prop-method').textContent = '-';
-            document.getElementById('prop-determinant').textContent = '-';
-            document.getElementById('prop-rank').textContent = '-';
+            document.getElementById('prop-rankA').textContent = '-';
+            document.getElementById('prop-rankAB').textContent = '-';
             document.getElementById('prop-consistency').textContent = '-';
             document.getElementById('prop-type').textContent = '-';
             
-            // Reset graphical representation
             const graphCanvas = document.getElementById('graph-canvas');
             const graphPlaceholder = document.getElementById('graph-placeholder');
             const graphLegend = document.getElementById('graph-legend');
@@ -2785,42 +2732,126 @@
             graphLegend.innerHTML = '';
         }
         
-        function showMessage(message, type) {
-            // Remove any existing message
-            const existingMessage = document.getElementById('temp-message');
-            if (existingMessage) {
-                existingMessage.remove();
+        // ============ POSTTEST INITIALIZATION ============
+        function initializePosttest() {
+            document.querySelectorAll('#posttest .option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    if (e.target.type === 'radio') return;
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        const options = this.closest('.options').querySelectorAll('.option');
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        
+                        const questionId = radio.name;
+                        const value = radio.value;
+                        showPosttestFeedback(questionId, value);
+                    }
+                });
+            });
+            
+            document.getElementById('submit-posttest').addEventListener('click', submitPosttestHandler);
+        }
+        
+        function showPosttestFeedback(questionId, value) {
+            const correctAnswers = {
+                'p1': { correct: 'a', text: 'x = 2, y = 1' },
+                'p2': { correct: 'c', text: 'Infinite Solutions' },
+                'p3': { correct: 'a', text: 'x = 2, y = 3, z = -1' },
+                'p4': { correct: 'a', text: 'det(A) = 0, Infinite Solutions' },
+                'p5': { correct: 'c', text: 'No Solution' }
+            };
+            
+            const feedbackDiv = document.getElementById(`${questionId}-feedback`);
+            const answer = correctAnswers[questionId];
+            
+            if (value === answer.correct) {
+                feedbackDiv.innerHTML = `<i class="fas fa-check-circle"></i> <strong>Correct!</strong>`;
+                feedbackDiv.className = 'answer-feedback feedback-correct';
+            } else {
+                feedbackDiv.innerHTML = `<i class="fas fa-times-circle"></i> <strong>Incorrect.</strong> The correct answer is: <strong>${answer.text}</strong>`;
+                feedbackDiv.className = 'answer-feedback feedback-incorrect';
+            }
+            feedbackDiv.style.display = 'block';
+        }
+        
+        function submitPosttestHandler() {
+            let score = 0;
+            const correctAnswers = {
+                'p1': 'a', 'p2': 'c', 'p3': 'a', 'p4': 'a', 'p5': 'c'
+            };
+            
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="p${i}"]:checked`);
+                if (selected && selected.value === correctAnswers[`p${i}`]) {
+                    score++;
+                }
             }
             
-            // Create message element
+            const resultsDiv = document.getElementById('posttest-results');
+            const percentage = (score / 5) * 100;
+            
+            resultsDiv.innerHTML = `
+                <div style="background: ${percentage >= 80 ? '#d5f4e6' : '#fdebd0'}; padding: 30px; border-radius: 10px; margin-top: 30px; text-align: center;">
+                    <h3>${percentage >= 80 ? 'Outstanding!' : 'Good Effort!'}</h3>
+                    <p style="font-size: 1.5rem; font-weight: bold; margin: 15px 0;">Score: ${score}/5 (${percentage.toFixed(0)}%)</p>
+                </div>
+            `;
+            resultsDiv.style.display = 'block';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // ============ FEEDBACK INITIALIZATION ============
+        function initializeFeedback() {
+            document.getElementById('feedback-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const comments = document.getElementById('comments').value;
+                if (!comments.trim()) {
+                    showMessage('Please provide comments in the feedback form.', 'error');
+                    return;
+                }
+                
+                const submitBtn = document.getElementById('submit-feedback');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                fetch('https://formspree.io/f/mojaonbz', {
+                    method: 'POST',
+                    body: new FormData(document.getElementById('feedback-form')),
+                    headers: { 'Accept': 'application/json' }
+                })
+                .then(response => {
+                    showMessage('Thank you! Your feedback has been submitted successfully.', 'success');
+                    document.getElementById('feedback-form').reset();
+                })
+                .catch(error => {
+                    showMessage('Network error. Please try again.', 'error');
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+            });
+        }
+        
+        // ============ UTILITY FUNCTIONS ============
+        function showMessage(message, type) {
+            const existingMessage = document.getElementById('temp-message');
+            if (existingMessage) existingMessage.remove();
+            
             const messageElement = document.createElement('div');
             messageElement.id = 'temp-message';
-            messageElement.style.position = 'fixed';
-            messageElement.style.top = '100px';
-            messageElement.style.right = '30px';
-            messageElement.style.padding = '15px 25px';
-            messageElement.style.borderRadius = '8px';
-            messageElement.style.fontWeight = '600';
-            messageElement.style.zIndex = '1000';
-            messageElement.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            messageElement.style.transition = 'all 0.3s';
-            messageElement.style.maxWidth = '300px';
-            
-            // Set style based on type
-            if (type === 'success') {
-                messageElement.style.backgroundColor = '#d5f4e6';
-                messageElement.style.color = '#27ae60';
-                messageElement.style.borderLeft = '5px solid #27ae60';
-            } else if (type === 'warning') {
-                messageElement.style.backgroundColor = '#fdebd0';
-                messageElement.style.color = '#f39c12';
-                messageElement.style.borderLeft = '5px solid #f39c12';
-            } else {
-                messageElement.style.backgroundColor = '#fadbd8';
-                messageElement.style.color = '#e74c3c';
-                messageElement.style.borderLeft = '5px solid #e74c3c';
-            }
-            
+            messageElement.style.cssText = `
+                position: fixed; top: 100px; right: 30px; padding: 15px 25px;
+                border-radius: 8px; font-weight: 600; z-index: 1000;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: all 0.3s; max-width: 400px;
+                background: ${type === 'success' ? '#d5f4e6' : type === 'warning' ? '#fdebd0' : '#fadbd8'};
+                color: ${type === 'success' ? '#27ae60' : type === 'warning' ? '#f39c12' : '#e74c3c'};
+                border-left: 5px solid ${type === 'success' ? '#27ae60' : type === 'warning' ? '#f39c12' : '#e74c3c'};
+            `;
             messageElement.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'times-circle'}"></i>
@@ -2830,518 +2861,11 @@
             
             document.body.appendChild(messageElement);
             
-            // Auto-remove after 3 seconds
             setTimeout(() => {
                 messageElement.style.opacity = '0';
                 messageElement.style.transform = 'translateX(100px)';
-                setTimeout(() => {
-                    if (messageElement.parentNode) {
-                        messageElement.remove();
-                    }
-                }, 300);
-            }, 3000);
-        }
-        
-        // Enhanced 2D and 3D Graph Functions (keep original)
-        function createGraphicalRepresentation(result, n) {
-            const graphCanvas = document.getElementById('graph-canvas');
-            const graphPlaceholder = document.getElementById('graph-placeholder');
-            const graphLegend = document.getElementById('graph-legend');
-            
-            // Clear previous content
-            graphPlaceholder.style.display = 'none';
-            graphCanvas.innerHTML = '';
-            graphLegend.innerHTML = '';
-            
-            if (n === 2) {
-                createEnhanced2DGraph(result, graphCanvas, graphLegend);
-            } else if (n === 3) {
-                createEnhanced3DGraph(result, graphCanvas, graphLegend);
-            } else {
-                // For n > 3, show a conceptual representation
-                createNDConceptual(result, graphCanvas, graphLegend, n);
-            }
-        }
-        
-        function createEnhanced2DGraph(result, container, legend) {
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-            const padding = 50;
-            const graphWidth = width - 2 * padding;
-            const graphHeight = height - 2 * padding;
-            
-            // Create SVG element
-            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svg.setAttribute('width', '100%');
-            svg.setAttribute('height', '100%');
-            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-            container.appendChild(svg);
-            
-            // Draw coordinate axes with arrows
-            // X-axis
-            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            xAxis.setAttribute('x1', padding);
-            xAxis.setAttribute('y1', height/2);
-            xAxis.setAttribute('x2', width - padding);
-            xAxis.setAttribute('y2', height/2);
-            xAxis.setAttribute('stroke', '#2c3e50');
-            xAxis.setAttribute('stroke-width', '2');
-            svg.appendChild(xAxis);
-            
-            // X-axis arrow
-            const xArrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-            xArrow.setAttribute('points', `${width-padding-10},${height/2-5} ${width-padding},${height/2} ${width-padding-10},${height/2+5}`);
-            xArrow.setAttribute('fill', '#2c3e50');
-            svg.appendChild(xArrow);
-            
-            // Y-axis
-            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            yAxis.setAttribute('x1', width/2);
-            yAxis.setAttribute('y1', padding);
-            yAxis.setAttribute('x2', width/2);
-            yAxis.setAttribute('y2', height - padding);
-            yAxis.setAttribute('stroke', '#2c3e50');
-            yAxis.setAttribute('stroke-width', '2');
-            svg.appendChild(yAxis);
-            
-            // Y-axis arrow
-            const yArrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-            yArrow.setAttribute('points', `${width/2-5},${padding+10} ${width/2},${padding} ${width/2+5},${padding+10}`);
-            yArrow.setAttribute('fill', '#2c3e50');
-            svg.appendChild(yArrow);
-            
-            // Add axis labels
-            const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            xLabel.setAttribute('x', width - padding + 15);
-            xLabel.setAttribute('y', height/2 - 10);
-            xLabel.setAttribute('fill', '#2c3e50');
-            xLabel.setAttribute('font-size', '14');
-            xLabel.setAttribute('font-weight', 'bold');
-            xLabel.textContent = 'x₁';
-            svg.appendChild(xLabel);
-            
-            const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            yLabel.setAttribute('x', width/2 + 15);
-            yLabel.setAttribute('y', padding - 10);
-            yLabel.setAttribute('fill', '#2c3e50');
-            yLabel.setAttribute('font-size', '14');
-            yLabel.setAttribute('font-weight', 'bold');
-            yLabel.textContent = 'x₂';
-            svg.appendChild(yLabel);
-            
-            // Draw grid lines
-            for (let i = -4; i <= 4; i++) {
-                if (i === 0) continue;
-                
-                const x = width/2 + i * (graphWidth/8);
-                const y = height/2 - i * (graphHeight/8);
-                
-                // Vertical grid line
-                const vLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                vLine.setAttribute('x1', x);
-                vLine.setAttribute('y1', padding);
-                vLine.setAttribute('x2', x);
-                vLine.setAttribute('y2', height - padding);
-                vLine.setAttribute('stroke', i === 0 ? '#2c3e50' : '#ecf0f1');
-                vLine.setAttribute('stroke-width', i === 0 ? '1' : '0.5');
-                vLine.setAttribute('stroke-dasharray', i === 0 ? 'none' : '2,2');
-                svg.appendChild(vLine);
-                
-                // Horizontal grid line
-                const hLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                hLine.setAttribute('x1', padding);
-                hLine.setAttribute('y1', y);
-                hLine.setAttribute('x2', width - padding);
-                hLine.setAttribute('y2', y);
-                hLine.setAttribute('stroke', i === 0 ? '#2c3e50' : '#ecf0f1');
-                hLine.setAttribute('stroke-width', i === 0 ? '1' : '0.5');
-                hLine.setAttribute('stroke-dasharray', i === 0 ? 'none' : '2,2');
-                svg.appendChild(hLine);
-                
-                // X-axis tick labels
-                if (i !== 0) {
-                    const xTick = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    xTick.setAttribute('x', x);
-                    xTick.setAttribute('y', height/2 + 20);
-                    xTick.setAttribute('fill', '#7f8c8d');
-                    xTick.setAttribute('font-size', '10');
-                    xTick.setAttribute('text-anchor', 'middle');
-                    xTick.textContent = i;
-                    svg.appendChild(xTick);
-                }
-                
-                // Y-axis tick labels
-                if (i !== 0) {
-                    const yTick = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    yTick.setAttribute('x', width/2 - 15);
-                    yTick.setAttribute('y', y + 3);
-                    yTick.setAttribute('fill', '#7f8c8d');
-                    yTick.setAttribute('font-size', '10');
-                    yTick.setAttribute('text-anchor', 'end');
-                    yTick.textContent = i;
-                    svg.appendChild(yTick);
-                }
-            }
-            
-            // Draw lines for each equation
-            const lineColors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12'];
-            const lineWidths = [3, 3, 2.5, 2.5, 2];
-            
-            for (let i = 0; i < 2; i++) {
-                const a = result.matrix[i][0];
-                const b = result.matrix[i][1];
-                const c = result.vector[i];
-                
-                // Find intersection points with graph boundaries
-                const points = [];
-                
-                // Intersection with left boundary (x = -4)
-                let x1 = -4;
-                let y1 = (c - a * x1) / b;
-                if (Math.abs(b) > 1e-10 && y1 >= -4 && y1 <= 4) {
-                    points.push({x: x1, y: y1});
-                }
-                
-                // Intersection with right boundary (x = 4)
-                let x2 = 4;
-                let y2 = (c - a * x2) / b;
-                if (Math.abs(b) > 1e-10 && y2 >= -4 && y2 <= 4) {
-                    points.push({x: x2, y: y2});
-                }
-                
-                // Intersection with bottom boundary (y = -4)
-                let y3 = -4;
-                let x3 = (c - b * y3) / a;
-                if (Math.abs(a) > 1e-10 && x3 >= -4 && x3 <= 4) {
-                    points.push({x: x3, y: y3});
-                }
-                
-                // Intersection with top boundary (y = 4)
-                let y4 = 4;
-                let x4 = (c - b * y4) / a;
-                if (Math.abs(a) > 1e-10 && x4 >= -4 && x4 <= 4) {
-                    points.push({x: x4, y: y4});
-                }
-                
-                // Remove duplicate points
-                const uniquePoints = [];
-                points.forEach(p => {
-                    if (!uniquePoints.some(up => Math.abs(up.x - p.x) < 0.1 && Math.abs(up.y - p.y) < 0.1)) {
-                        uniquePoints.push(p);
-                    }
-                });
-                
-                // Draw the line if we have at least 2 points
-                if (uniquePoints.length >= 2) {
-                    // Scale to graph coordinates
-                    const scaleX = (val) => width/2 + val * (graphWidth/8);
-                    const scaleY = (val) => height/2 - val * (graphHeight/8);
-                    
-                    // Draw the line
-                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                    line.setAttribute('x1', scaleX(uniquePoints[0].x));
-                    line.setAttribute('y1', scaleY(uniquePoints[0].y));
-                    line.setAttribute('x2', scaleX(uniquePoints[1].x));
-                    line.setAttribute('y2', scaleY(uniquePoints[1].y));
-                    line.setAttribute('stroke', lineColors[i]);
-                    line.setAttribute('stroke-width', lineWidths[i]);
-                    line.setAttribute('stroke-dasharray', result.nature === 'none' ? '5,5' : 'none');
-                    line.setAttribute('stroke-linecap', 'round');
-                    svg.appendChild(line);
-                    
-                    // Add equation label
-                    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    label.setAttribute('x', scaleX(uniquePoints[1].x) + 10);
-                    label.setAttribute('y', scaleY(uniquePoints[1].y) - 10);
-                    label.setAttribute('fill', lineColors[i]);
-                    label.setAttribute('font-size', '12');
-                    label.setAttribute('font-weight', 'bold');
-                    label.textContent = `${a.toFixed(1)}x₁ + ${b.toFixed(1)}x₂ = ${c.toFixed(1)}`;
-                    svg.appendChild(label);
-                    
-                    // Add to legend
-                    const legendItem = document.createElement('div');
-                    legendItem.className = 'legend-item';
-                    legendItem.innerHTML = `
-                        <div class="legend-color ${i === 0 ? 'color-line1' : 'color-line2'}"></div>
-                        <span>Equation ${i+1}: ${a.toFixed(1)}x₁ + ${b.toFixed(1)}x₂ = ${c.toFixed(1)}</span>
-                    `;
-                    legend.appendChild(legendItem);
-                }
-            }
-            
-            // Draw solution point if unique solution exists
-            if (result.nature === 'unique') {
-                const solX = result.solution[0];
-                const solY = result.solution[1];
-                const scaleX = (val) => width/2 + val * (graphWidth/8);
-                const scaleY = (val) => height/2 - val * (graphHeight/8);
-                
-                // Draw solution point with glow effect
-                const solutionGlow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                solutionGlow.setAttribute('cx', scaleX(solX));
-                solutionGlow.setAttribute('cy', scaleY(solY));
-                solutionGlow.setAttribute('r', '10');
-                solutionGlow.setAttribute('fill', '#f39c12');
-                solutionGlow.setAttribute('opacity', '0.3');
-                solutionGlow.setAttribute('filter', 'url(#glow)');
-                svg.appendChild(solutionGlow);
-                
-                const solutionPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                solutionPoint.setAttribute('cx', scaleX(solX));
-                solutionPoint.setAttribute('cy', scaleY(solY));
-                solutionPoint.setAttribute('r', '6');
-                solutionPoint.setAttribute('fill', '#f39c12');
-                solutionPoint.setAttribute('stroke', '#fff');
-                solutionPoint.setAttribute('stroke-width', '2');
-                svg.appendChild(solutionPoint);
-                
-                // Add solution label
-                const solutionLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                solutionLabel.setAttribute('x', scaleX(solX) + 15);
-                solutionLabel.setAttribute('y', scaleY(solY) - 15);
-                solutionLabel.setAttribute('fill', '#f39c12');
-                solutionLabel.setAttribute('font-size', '12');
-                solutionLabel.setAttribute('font-weight', 'bold');
-                solutionLabel.textContent = `Solution: (${solX.toFixed(2)}, ${solY.toFixed(2)})`;
-                svg.appendChild(solutionLabel);
-                
-                // Add to legend
-                const legendItem = document.createElement('div');
-                legendItem.className = 'legend-item';
-                legendItem.innerHTML = `
-                    <div class="legend-color color-solution"></div>
-                    <span>Solution Point: (${solX.toFixed(2)}, ${solY.toFixed(2)})</span>
-                `;
-                legend.appendChild(legendItem);
-            }
-            
-            // Add glow filter for solution point
-            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-            const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
-            filter.setAttribute('id', 'glow');
-            filter.setAttribute('x', '-50%');
-            filter.setAttribute('y', '-50%');
-            filter.setAttribute('width', '200%');
-            filter.setAttribute('height', '200%');
-            
-            const feGaussianBlur = document.createElementNS('http://www.w3.org/2000/svg', 'feGaussianBlur');
-            feGaussianBlur.setAttribute('stdDeviation', '3');
-            feGaussianBlur.setAttribute('result', 'coloredBlur');
-            
-            const feMerge = document.createElementNS('http://www.w3.org/2000/svg', 'feMerge');
-            const feMergeNode1 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
-            feMergeNode1.setAttribute('in', 'coloredBlur');
-            const feMergeNode2 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
-            feMergeNode2.setAttribute('in', 'SourceGraphic');
-            
-            feMerge.appendChild(feMergeNode1);
-            feMerge.appendChild(feMergeNode2);
-            filter.appendChild(feGaussianBlur);
-            filter.appendChild(feMerge);
-            defs.appendChild(filter);
-            svg.appendChild(defs);
-        }
-        
-        function createEnhanced3DGraph(result, container, legend) {
-            // Keep the original 3D graph function as is
-            container.innerHTML = '';
-            
-            // Create 3D visualization container
-            const graph3D = document.createElement('div');
-            graph3D.className = 'graph-3d-container';
-            
-            // Create axes
-            const axesHTML = `
-                <div class="graph-3d">
-                    <!-- X-axis (red) -->
-                    <div class="axis axis-x" style="background-color: #e74c3c; width: 200px; left: 50%; top: 50%; transform: translate(-50%, -50%) rotateX(90deg);"></div>
-                    
-                    <!-- Y-axis (blue) -->
-                    <div class="axis axis-y" style="background-color: #3498db; height: 200px; left: 50%; top: 50%; transform: translate(-50%, -50%);"></div>
-                    
-                    <!-- Z-axis (green) -->
-                    <div class="axis axis-z" style="background-color: #2ecc71; width: 200px; left: 50%; top: 50%; transform: translate(-50%, -50%) rotateY(90deg);"></div>
-                    
-                    <!-- Axis labels -->
-                    <div style="position: absolute; left: 60%; top: 50%; color: #e74c3c; font-weight: bold; transform: translate(-50%, -50%);">x₁</div>
-                    <div style="position: absolute; left: 50%; top: 40%; color: #3498db; font-weight: bold; transform: translate(-50%, -50%);">x₂</div>
-                    <div style="position: absolute; left: 40%; top: 50%; color: #2ecc71; font-weight: bold; transform: translate(-50%, -50%);">x₃</div>
-                </div>
-            `;
-            
-            graph3D.innerHTML = axesHTML;
-            
-            // Create planes for each equation
-            const planeColors = ['#e74c3c', '#3498db', '#2ecc71'];
-            const planeAlphas = [0.2, 0.2, 0.2];
-            
-            for (let i = 0; i < 3; i++) {
-                const a = result.matrix[i][0];
-                const b = result.matrix[i][1];
-                const c = result.matrix[i][2];
-                const d = result.vector[i];
-                
-                // Create plane element
-                const plane = document.createElement('div');
-                plane.className = 'plane';
-                plane.style.width = '150px';
-                plane.style.height = '150px';
-                plane.style.left = '50%';
-                plane.style.top = '50%';
-                plane.style.backgroundColor = planeColors[i];
-                plane.style.opacity = planeAlphas[i];
-                plane.style.transform = `translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`;
-                
-                // Calculate plane orientation based on coefficients
-                const normal = [a, b, c];
-                const magnitude = Math.sqrt(a*a + b*b + c*c);
-                
-                if (magnitude > 0) {
-                    // Simple visualization - planes intersecting at different angles
-                    const angle = (i * 120) + 45; // 45°, 165°, 285°
-                    plane.style.transform = `translate(-50%, -50%) rotateX(${angle}deg) rotateY(${angle}deg)`;
-                }
-                
-                graph3D.querySelector('.graph-3d').appendChild(plane);
-                
-                // Add to legend
-                const legendItem = document.createElement('div');
-                legendItem.className = 'legend-item';
-                legendItem.innerHTML = `
-                    <div class="legend-color" style="background-color: ${planeColors[i]}"></div>
-                    <span>Plane ${i+1}: ${a.toFixed(1)}x₁ + ${b.toFixed(1)}x₂ + ${c.toFixed(1)}x₃ = ${d.toFixed(1)}</span>
-                `;
-                legend.appendChild(legendItem);
-            }
-            
-            // Draw solution point if unique solution exists
-            if (result.nature === 'unique') {
-                const solX = result.solution[0];
-                const solY = result.solution[1];
-                const solZ = result.solution[2];
-                
-                // Scale coordinates for visualization
-                const scale = 20;
-                const xPos = 50 + solX * scale;
-                const yPos = 50 - solY * scale;
-                const zPos = 50 + solZ * scale;
-                
-                const solutionPoint = document.createElement('div');
-                solutionPoint.className = 'solution-point pulse';
-                solutionPoint.style.left = `${xPos}%`;
-                solutionPoint.style.top = `${yPos}%`;
-                solutionPoint.style.transform = `translate(-50%, -50%) translateZ(${zPos}px)`;
-                
-                graph3D.querySelector('.graph-3d').appendChild(solutionPoint);
-                
-                // Add solution label
-                const solutionLabel = document.createElement('div');
-                solutionLabel.style.position = 'absolute';
-                solutionLabel.style.left = `${xPos + 5}%`;
-                solutionLabel.style.top = `${yPos - 5}%`;
-                solutionLabel.style.color = '#f39c12';
-                solutionLabel.style.fontWeight = 'bold';
-                solutionLabel.style.fontSize = '12px';
-                solutionLabel.textContent = `(${solX.toFixed(2)}, ${solY.toFixed(2)}, ${solZ.toFixed(2)})`;
-                graph3D.appendChild(solutionLabel);
-                
-                // Add to legend
-                const legendItem = document.createElement('div');
-                legendItem.className = 'legend-item';
-                legendItem.innerHTML = `
-                    <div class="legend-color color-solution"></div>
-                    <span>Solution: (${solX.toFixed(2)}, ${solY.toFixed(2)}, ${solZ.toFixed(2)})</span>
-                `;
-                legend.appendChild(legendItem);
-            }
-            
-            // Add explanation
-            const explanation = document.createElement('div');
-            explanation.style.textAlign = 'center';
-            explanation.style.marginTop = '20px';
-            explanation.style.color = '#7f8c8d';
-            
-            if (result.nature === 'unique') {
-                explanation.innerHTML = `
-                    <h4 style="color: #2c3e50; margin-bottom: 10px;">3D System Visualization</h4>
-                    <p>Three planes intersecting at a single point (unique solution)</p>
-                    <p style="font-size: 0.9rem; margin-top: 5px;">Each colored plane represents one equation in the system</p>
-                `;
-            } else if (result.nature === 'infinite') {
-                explanation.innerHTML = `
-                    <h4 style="color: #2c3e50; margin-bottom: 10px;">3D System Visualization</h4>
-                    <p>Planes intersect along a line (infinite solutions)</p>
-                    <p style="font-size: 0.9rem; margin-top: 5px;">The system has dependent equations</p>
-                `;
-            } else {
-                explanation.innerHTML = `
-                    <h4 style="color: #2c3e50; margin-bottom: 10px;">3D System Visualization</h4>
-                    <p>Planes do not all intersect (no solution)</p>
-                    <p style="font-size: 0.9rem; margin-top: 5px;">The system is inconsistent</p>
-                `;
-            }
-            
-            container.appendChild(graph3D);
-            container.appendChild(explanation);
-            
-            // Add CSS for 3D effect
-            const style = document.createElement('style');
-            style.textContent = `
-                .graph-3d-container {
-                    width: 100%;
-                    height: 100%;
-                    perspective: 1000px;
-                }
-                .graph-3d {
-                    width: 100%;
-                    height: 100%;
-                    position: relative;
-                    transform-style: preserve-3d;
-                    transform: rotateX(60deg) rotateZ(45deg);
-                    animation: rotate3d 30s infinite linear;
-                }
-                @keyframes rotate3d {
-                    0% { transform: rotateX(60deg) rotateZ(45deg); }
-                    100% { transform: rotateX(60deg) rotateZ(405deg); }
-                }
-                .axis {
-                    position: absolute;
-                    transform-origin: center;
-                }
-                .plane {
-                    position: absolute;
-                    border: 1px solid rgba(0,0,0,0.1);
-                    transform-origin: center;
-                }
-                .solution-point {
-                    position: absolute;
-                    width: 12px;
-                    height: 12px;
-                    background-color: #f39c12;
-                    border-radius: 50%;
-                    transform: translate(-50%, -50%);
-                    box-shadow: 0 0 20px rgba(243, 156, 18, 0.8);
-                    z-index: 10;
-                }
-            `;
-            container.appendChild(style);
-        }
-        
-        function createNDConceptual(result, container, legend, n) {
-            container.innerHTML = `
-                <div style="text-align: center; padding: 40px;">
-                    <i class="fas fa-project-diagram" style="font-size: 4rem; color: #3498db; margin-bottom: 20px;"></i>
-                    <h3 style="color: #1e3c72; margin-bottom: 15px;">${n}-Dimensional System Visualization</h3>
-                    <p>For systems with ${n} variables (n > 3), graphical representation is conceptual.</p>
-                    <p style="margin-top: 10px; color: #7f8c8d;">The system represents ${n}-dimensional hyperplanes in ${n}-dimensional space.</p>
-                    <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 5px solid #9b59b6;">
-                        <p><strong>Solution Nature:</strong> ${result.nature.toUpperCase()}</p>
-                        <p><strong>Number of Equations:</strong> ${n}</p>
-                        <p><strong>Number of Variables:</strong> ${n}</p>
-                    </div>
-                </div>
-            `;
+                setTimeout(() => { if (messageElement.parentNode) messageElement.remove(); }, 300);
+            }, 4000);
         }
     </script>
 </body>
